@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Callum — things I build</title>
+<meta name="description" content="Robots, games and tools built by Callum. Project write-ups and a weekly build log.">
+
+<!-- link preview card. when you buy a domain, change the two URLs below to the full https:// address. -->
+<meta property="og:title" content="Callum — things I build">
+<meta property="og:description" content="Robots, games and tools built by Callum. Project write-ups and a weekly build log.">
+<meta property="og:image" content="img/callum.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- sets the theme before the page paints, so it never flashes white then dark -->
+<script>(function(){try{var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+</head>
+<body>
+
+<main id="main" class="wrap">
+  <!-- who I am. no photo for now: SITE.photo is ignored here on purpose -->
+  <section class="hero" id="hero"></section>
+
+  <div id="categories"></div>
+</main>
+
+
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script src="js/edit.js" defer></script>
+<script>renderHome(); polish(); reveal();</script>
+</body>
+</html>

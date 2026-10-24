@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build log — Callum</title>
+<meta name="description" content="What I worked on each week, including the parts that did not work.">
+
+<!-- link preview card. when you buy a domain, change the two URLs below to the full https:// address. -->
+<meta property="og:title" content="Build log — Callum">
+<meta property="og:description" content="What I worked on each week, including the parts that did not work.">
+<meta property="og:image" content="img/callum.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- sets the theme before the page paints, so it never flashes white then dark -->
+<script>(function(){try{var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" id="nav"></nav>
+<main id="main" class="wrap narrow">
+  <section class="page-head">
+    <h1>Build log</h1>
+    <p class="sub">What I worked on each week — including the parts that didn’t work.</p>
+  </section>
+  <div class="sec-head" style="margin-top:0"><h2>Entries</h2><span class="count" id="count"></span></div>
+  <div id="entries"></div>
+</main>
+<footer id="foot"></footer>
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script src="js/edit.js" defer></script>
+<script>renderNav('log.html'); renderLog(); renderFoot(); polish(); reveal();</script>
+</body>
+</html>
