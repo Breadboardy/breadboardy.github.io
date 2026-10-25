@@ -34,14 +34,14 @@ const PROJECTS = [
     started: "2026-05",                   // first commit: 29 May 2026
     repo:    "",
     demo:    "",
-    image:   "img/meatball-fair-demo.jpg",
+    image:   "img/meatball-front.jpg",
     photos:  [
-      ["img/meatball-fair-demo.jpg",  "Demoing at the fair"],
-      ["img/meatball-fair-booth.jpg", "At the booth"],
       ["img/meatball-front.jpg",   "Head on"],
+      ["img/meatball-face.jpg",    "The painted face"],
       ["img/meatball-arms.jpg",    "Both arms"],
       ["img/meatball-gripper.jpg", "Gripper"],
-      ["img/meatball-face.jpg",    "The painted face"]
+      ["img/meatball-fair-demo.jpg",  "Demoing at the science fair"],
+      ["img/meatball-fair-booth.jpg", "At the booth"]
     ],
 
     goal:      "[? why a humanoid, and not something easier?] I wanted to build a full sized humanoid with two arms that could actually pick things up, not just a robot arm on a desk.",
