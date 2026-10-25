@@ -330,7 +330,8 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 
 /* ---- featured lead ---- */
 .feat-row {
-  display: grid; gap: 20px; margin: 40px 0 8px;
+  /* top margin leaves headroom for the breadboard guy sitting on the lead card */
+  display: grid; gap: 20px; margin: 104px 0 8px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 .feat {
@@ -500,13 +501,17 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 .perch {
   position: absolute;
   right: 26px;
-  top: -30px;                /* mostly over the photo, so a white character still reads */
+  top: -78px;                /* bottom edge lands on the card top — he sits on it */
   width: 112px;
   height: auto;
   z-index: 2;
   opacity: 1;                /* overrides the global img fade-in */
   pointer-events: none;
-  filter: drop-shadow(0 1px 0 rgba(16,24,40,.30)) drop-shadow(0 7px 12px rgba(16,24,40,.30));
+  --line: rgba(22,28,25,.85);
+  filter:
+    drop-shadow( 1.5px 0 0 var(--line)) drop-shadow(-1.5px 0 0 var(--line))
+    drop-shadow(0  1.5px 0 var(--line)) drop-shadow(0 -1.5px 0 var(--line))
+    drop-shadow(0 7px 11px rgba(16,24,40,.28));
   transition: transform .5s cubic-bezier(.32,1.16,.48,1);
 }
 .feat.has-perch:hover .perch { transform: translateY(-5px) rotate(-3deg); }
@@ -514,8 +519,8 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 /* .feat needs to be a positioning context for him */
 .feat { position: relative; }
 
-html[data-theme="dark"] .perch { filter: drop-shadow(0 1px 0 rgba(255,255,255,.22)) drop-shadow(0 7px 12px rgba(0,0,0,.65)); }
+html[data-theme="dark"] .perch { --line: rgba(0,0,0,.8); }
 
 @media (max-width: 600px) {
-  .perch { width: 72px; top: -20px; right: 14px; }
+  .perch { width: 74px; top: -52px; right: 14px; }
 }
