@@ -48,6 +48,19 @@
   ];
 
   const dirty = new Map();            // "TARGET|key|field" -> {spec, value}
+
+  /* a textarea reports scrollHeight 0 while it is display:none, so every box
+     inside a collapsed group sizes itself wrong. Re-size them once shown. */
+  function resize(root) {
+    const run = () => (root || document)
+      .querySelectorAll('.ed-field textarea').forEach(t => t._grow && t._grow());
+    run();                                 // the class change already applied, so size now
+    requestAnimationFrame(run);            // and again after paint, for fonts/reflow
+  }
+  function toggleGroup(g) {
+    g.classList.toggle('ed-collapsed');
+    if (!g.classList.contains('ed-collapsed')) resize(g);
+  }
   let panel, statusEl;
 
   const esc = s => String(s).replace(/[&<>"]/g, c =>
@@ -106,9 +119,10 @@
       wrap.classList.add('ed-dirty');
       mark();
     });
+    ta._grow = grow;   /* re-run after the group is expanded; scrollHeight lies while display:none */
     ta.addEventListener('focus', () => requestAnimationFrame(followCaret));
     addEventListener('resize', grow);
-    requestAnimationFrame(grow); tally();
+    grow(); requestAnimationFrame(grow); tally();
     return wrap;
   }
 
@@ -137,7 +151,7 @@
       const done = STEPS.slice(1, 7).filter(([k]) => p[k]).length;
       const g = group(p.name, `${done}/6 written`);
       g.classList.add('ed-collapsed');
-      g.querySelector('h3').onclick = () => g.classList.toggle('ed-collapsed');
+      g.querySelector('h3').onclick = () => toggleGroup(g);
       [['name', 'Name'], ...STEPS].forEach(([field, label]) =>
         g.appendChild(fieldRow({ target: 'PROJECTS', key: p.id, field }, label, '',
                                ['goal','firstTry','wentWrong','changed','nowDoes','next'].includes(field))));
@@ -153,7 +167,7 @@
     ].forEach(([target, title, arr, fields, addKind]) => {
       const g = group(title, `${arr.length}`);
       g.classList.add('ed-collapsed');
-      g.querySelector('h3').onclick = () => g.classList.toggle('ed-collapsed');
+      g.querySelector('h3').onclick = () => toggleGroup(g);
       arr.forEach((item, index) => {
         if (arr.length > 1) {
           const h = document.createElement('div');
@@ -223,7 +237,7 @@
 
   /* ---------- chrome ---------- */
 
-  function open()  { panel.classList.add('ed-open');  document.body.classList.add('ed-shifted'); }
+  function open()  { panel.classList.add('ed-open');  document.body.classList.add('ed-shifted'); resize(); }
   function close() { panel.classList.remove('ed-open'); document.body.classList.remove('ed-shifted'); }
 
   function mount() {
