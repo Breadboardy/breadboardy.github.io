@@ -77,18 +77,37 @@
     const count = wrap.querySelector('.ed-count');
     ta.value = val;
 
-    const grow = () => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; };
+    /* grow to fit, but stop at ~45% of the window and scroll inside after that,
+       otherwise a long answer makes one box taller than the whole panel */
+    const grow = () => {
+      const max = Math.max(160, Math.round(innerHeight * 0.45));
+      ta.style.height = 'auto';
+      const full = ta.scrollHeight;
+      ta.style.height = Math.min(full, max) + 'px';
+      ta.style.overflowY = full > max ? 'auto' : 'hidden';
+    };
+
+    /* keep the caret in view when it reaches the bottom of a capped box */
+    const followCaret = () => {
+      const panel = wrap.closest('.ed-body');
+      if (!panel) return;
+      const r = ta.getBoundingClientRect(), p = panel.getBoundingClientRect();
+      if (r.bottom > p.bottom) panel.scrollTop += r.bottom - p.bottom + 12;
+      else if (r.top < p.top)  panel.scrollTop -= p.top - r.top + 12;
+    };
     const tally = () => {
       const w = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
       count.textContent = w ? `${w} word${w === 1 ? '' : 's'}` : '';
     };
 
     ta.addEventListener('input', () => {
-      grow(); tally();
+      grow(); tally(); followCaret();
       dirty.set(key, { spec, value: ta.value });
       wrap.classList.add('ed-dirty');
       mark();
     });
+    ta.addEventListener('focus', () => requestAnimationFrame(followCaret));
+    addEventListener('resize', grow);
     requestAnimationFrame(grow); tally();
     return wrap;
   }

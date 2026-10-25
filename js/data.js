@@ -28,7 +28,7 @@ const PROJECTS = [
     category: "humanoids",
     featured: true,
     name:    "MEATBALL",
-    tagline: "A 4 foot 3 humanoid robot I 3D printed, with two arms that work.",
+    tagline: "A humanoid robot meant to make humanoid robots more accessible and cheaper.",
     tags:    ["robotics", "3d printing", "python", "servos", "computer vision"],
     status:  "built",
     started: "2026-05",                   // first commit: 29 May 2026
@@ -44,8 +44,8 @@ const PROJECTS = [
       ["img/meatball-fair-booth.jpg", "At the booth"]
     ],
 
-    goal:      "[? why a humanoid, and not something easier?] I wanted to build a full sized humanoid with two arms that could actually pick things up, not just a robot arm on a desk.",
-    firstTry:  "I printed two SO-101 arms and mirrored them so one is left and one is right, six joints each. I got the servos from Shenzhen. I do not have leader arms, so instead of a controller I pose one arm with my hands and it records where I put it.",
+    goal:      "I wanted to build a full sized humanoid with two arms that could actually pick things up and do chores. The reason why I wanted to build my own is that humanoid robots are very expensive and hard to build.",
+    firstTry:  "I tried designing my own arm but I soon realize that i could just steal other peoples designs. The design I chose to steal is the SO-101 robotic arm.",
     wentWrong: "Almost nothing about the hardware stayed still.\n\nThe serial ports renumber every time you unplug something, so ACM0 and ACM1 swap and any port I had written down was wrong. Both wrist cameras report the exact same device name, so there is no way to tell them apart from a list. Some of the video devices open perfectly fine and then never send a single frame, because they are not cameras at all.\n\nThe worst one was the shoulder. If you hold the arm out at mid range that is where gravity pulls hardest, so the servo is fighting the most there. It does not fail straight away, it just slowly cooks itself while everything looks fine.",
     changed:   "I stopped hard coding anything. I wrote a script that takes a snapshot from every camera so I can see which one is which. I worked out the real limit is USB bandwidth, not power, because two raw 640x480 streams at 30fps are about 147 Mbps each.\n\nThen I built a safety layer that everything has to go through. It watches for jams, overheating and slow cooking, it clamps every command so it can never hit the end stop, and it moves around the resting pose instead of mid range so the shoulder is not holding up the whole arm.",
     nowDoes:   "It is built and standing. Both arms work, six joints each, and I can pose them by hand and play it back. It has a printed head with a face I painted. The safety stack runs on everything.",

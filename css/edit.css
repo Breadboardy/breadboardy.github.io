@@ -74,6 +74,13 @@ html[data-theme="dark"] .ed-status.ed-bad { color: #ff7a6b; }
   font: 14px/1.6 var(--sans); color: var(--text);
   background: var(--bg); border: 1px solid var(--ring); border-radius: 9px;
   resize: vertical; overflow: hidden; min-height: 38px;
+  scrollbar-width: thin;
+}
+/* when a box hits its cap, JS flips overflow-y to auto — give it a visible track */
+.ed-field textarea::-webkit-scrollbar { width: 9px; }
+.ed-field textarea::-webkit-scrollbar-thumb {
+  background: var(--ink-faint); border-radius: 99px;
+  border: 2px solid var(--bg); background-clip: content-box;
 }
 .ed-field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
 .ed-dirty textarea { border-color: var(--warn); background: var(--warn-bg); }
