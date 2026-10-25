@@ -489,3 +489,33 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
       #2b2f2c;
   }
 }
+
+/* ============================================================
+   the breadboard guy, sitting on the edge of the lead card
+   ============================================================ */
+
+.feat.has-perch { overflow: visible; }      /* let him hang over the top edge */
+.feat.has-perch .feat-art { border-radius: 4px 4px 0 0; }
+
+.perch {
+  position: absolute;
+  right: 26px;
+  top: -30px;                /* mostly over the photo, so a white character still reads */
+  width: 112px;
+  height: auto;
+  z-index: 2;
+  opacity: 1;                /* overrides the global img fade-in */
+  pointer-events: none;
+  filter: drop-shadow(0 1px 0 rgba(16,24,40,.30)) drop-shadow(0 7px 12px rgba(16,24,40,.30));
+  transition: transform .5s cubic-bezier(.32,1.16,.48,1);
+}
+.feat.has-perch:hover .perch { transform: translateY(-5px) rotate(-3deg); }
+
+/* .feat needs to be a positioning context for him */
+.feat { position: relative; }
+
+html[data-theme="dark"] .perch { filter: drop-shadow(0 1px 0 rgba(255,255,255,.22)) drop-shadow(0 7px 12px rgba(0,0,0,.65)); }
+
+@media (max-width: 600px) {
+  .perch { width: 72px; top: -20px; right: 14px; }
+}

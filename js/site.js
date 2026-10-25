@@ -122,7 +122,7 @@ function renderHome() {
   const feat = PROJECTS.filter(p => p.category && p.featured);
   const featEl = document.getElementById('featured');
   if (featEl) featEl.innerHTML = feat.length
-    ? `<div class="feat-row">${feat.map(featuredCard).join('')}</div>` : '';
+    ? `<div class="feat-row">${feat.map((p, i) => featuredCard(p, i === 0)).join('')}</div>` : '';
 
   /* three categories — every project appears here, featured or not */
   const host = document.getElementById('categories');
@@ -154,10 +154,11 @@ function card(p) {
 }
 
 /* the big lead card(s) — best work, up top, to pull a visitor in */
-function featuredCard(p) {
+function featuredCard(p, perch) {
   const sub = p.tagline || (p.tags || []).slice(0, 3).join(' · ');
   return `
-    <a class="feat" href="project.html?id=${encodeURIComponent(p.id)}">
+    <a class="feat${perch ? ' has-perch' : ''}" href="project.html?id=${encodeURIComponent(p.id)}">
+      ${perch ? `<img class="perch" src="img/breadboard-guy.png" alt="" aria-hidden="true">` : ''}
       ${art(p, 'feat-art')}
       <div class="feat-text">
         <b>${esc(p.name)}</b>
