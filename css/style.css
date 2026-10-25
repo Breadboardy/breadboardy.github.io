@@ -437,7 +437,7 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
   overflow: hidden;
   /* matches the video so there's no flash before it loads — and fades out
      at the same point the video does, or it fills straight back in */
-  background: linear-gradient(180deg, #0f1d16 0%, #0f1d16 56%, var(--paper) 97%);
+  background: linear-gradient(180deg, #0f1d16 0%, #0f1d16 40%, var(--paper) 97%);
   isolation: isolate;
 }
 .hero-vid {
@@ -453,14 +453,14 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
     /* bottom edge dissolves into the page below, so the band has no hard line */
-    linear-gradient(180deg, transparent 62%, var(--paper) 98%),
+    linear-gradient(180deg, transparent 46%, var(--paper) 98%),
     linear-gradient(180deg, rgba(15,29,22,.55) 0%, rgba(15,29,22,.72) 82%, rgba(15,29,22,0) 100%),
     radial-gradient(120% 90% at 20% 40%, rgba(15,29,22,.25), rgba(15,29,22,.8));
 }
 /* the video itself fades out too, or its dots show through the paper fade */
 .hero-vid {
-  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 96%);
-          mask-image: linear-gradient(180deg, #000 60%, transparent 96%);
+  -webkit-mask-image: linear-gradient(180deg, #000 44%, transparent 96%);
+          mask-image: linear-gradient(180deg, #000 44%, transparent 96%);
 }
 
 /* the hero text sits on dark now, so it flips to light ink */
@@ -484,7 +484,7 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
   .hero-vid { display: none; }
   .hero-band {
     background:
-      linear-gradient(180deg, transparent 56%, var(--paper) 97%),
+      linear-gradient(180deg, transparent 40%, var(--paper) 97%),
       url("../media/hero-poster.jpg") center/cover no-repeat,
       #0f1d16;
   }
