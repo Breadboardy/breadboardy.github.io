@@ -450,12 +450,19 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 .hero-shade {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(15,29,22,.55) 0%, rgba(15,29,22,.72) 100%),
+    /* bottom edge dissolves into the page below, so the band has no hard line */
+    linear-gradient(180deg, transparent 62%, var(--paper) 98%),
+    linear-gradient(180deg, rgba(15,29,22,.55) 0%, rgba(15,29,22,.72) 82%, rgba(15,29,22,0) 100%),
     radial-gradient(120% 90% at 20% 40%, rgba(15,29,22,.25), rgba(15,29,22,.8));
+}
+/* the video itself fades out too, or its dots show through the paper fade */
+.hero-vid {
+  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 96%);
+          mask-image: linear-gradient(180deg, #000 60%, transparent 96%);
 }
 
 /* the hero text sits on dark now, so it flips to light ink */
-.hero-band .hero { padding: 68px 0 72px; }
+.hero-band .hero { padding: 68px 0 118px; }
 .hero-band .hero h1 { color: #ffffff; }
 .hero-band .hero .role { color: rgba(255,255,255,.94); }
 .hero-band .hero .intro { color: rgba(255,255,255,.94); }
@@ -467,7 +474,7 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 #awards { margin-top: 26px; }
 
 @media (max-width: 600px) {
-  .hero-band .hero { padding: 44px 0 48px; }
+  .hero-band .hero { padding: 44px 0 86px; }
 }
 
 /* someone who asked for less motion gets the still poster frame */
