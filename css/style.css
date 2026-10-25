@@ -435,7 +435,9 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 .hero-band {
   position: relative;
   overflow: hidden;
-  background: #0f1d16;                 /* matches the video, so no flash before it loads */
+  /* matches the video so there's no flash before it loads — and fades out
+     at the same point the video does, or it fills straight back in */
+  background: linear-gradient(180deg, #0f1d16 0%, #0f1d16 56%, var(--paper) 97%);
   isolation: isolate;
 }
 .hero-vid {
@@ -480,5 +482,10 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 /* someone who asked for less motion gets the still poster frame */
 @media (prefers-reduced-motion: reduce) {
   .hero-vid { display: none; }
-  .hero-band { background: #0f1d16 center/cover no-repeat url("../media/hero-poster.jpg"); }
+  .hero-band {
+    background:
+      linear-gradient(180deg, transparent 56%, var(--paper) 97%),
+      url("../media/hero-poster.jpg") center/cover no-repeat,
+      #0f1d16;
+  }
 }
