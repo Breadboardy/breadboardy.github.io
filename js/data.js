@@ -34,8 +34,10 @@ const PROJECTS = [
     started: "2026-05",                   // first commit: 29 May 2026
     repo:    "",
     demo:    "",
-    image:   "img/meatball-front.jpg",
+    image:   "img/meatball-fair-demo.jpg",
     photos:  [
+      ["img/meatball-fair-demo.jpg",  "Demoing at the fair"],
+      ["img/meatball-fair-booth.jpg", "At the booth"],
       ["img/meatball-front.jpg",   "Head on"],
       ["img/meatball-arms.jpg",    "Both arms"],
       ["img/meatball-gripper.jpg", "Gripper"],
