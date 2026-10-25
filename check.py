@@ -32,9 +32,16 @@ def field(blk, name):
         return ""
     try:
         import json as _j
-        return _j.loads('"' + m.group(1) + '"').strip()
+        val = _j.loads('"' + m.group(1) + '"')
     except Exception:
-        return m.group(1).strip()
+        val = m.group(1)
+    return val.strip()
+
+
+def written(blk, name):
+    """Like field(), but a value made only of "[? ... ]" notes counts as blank —
+       the site strips those, so the checker must agree or the counts lie."""
+    return re.sub(r"\[\?[^\]]*\]", "", field(blk, name)).strip()
 
 
 def bar(done, total):
@@ -53,7 +60,7 @@ chunks = re.split(r'\n\s*\{', projects)[1:]
 print(f"\n{B}PROJECTS{N}")
 for c in chunks:
     name = field(c, "name") or field(c, "id")
-    done = sum(1 for k, _ in STEPS if field(c, k))
+    done = sum(1 for k, _ in STEPS if written(c, k))
     todo += 6 - done
     pid = field(c, "id")
     mine = sum(1 for k, _ in STEPS
@@ -66,7 +73,7 @@ for c in chunks:
         tag = f"  {G}all yours{N}"
     print(f"  {bar(done, 6)} {name:<18} {D}{done}/6 sections{N}{tag}")
     draft_total[0] += mine
-    missing = [lbl for k, lbl in STEPS if not field(c, k)]
+    missing = [lbl for k, lbl in STEPS if not written(c, k)]
     if missing:
         print(f"      {D}needs: {', '.join(missing)}{N}")
     extras = [n for n in ("tagline", "repo", "demo") if not field(c, n)]

@@ -20,10 +20,16 @@
 <script>(function(){try{var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" id="nav"></nav>
 
 <main id="main" class="wrap">
   <!-- who I am. no photo for now: SITE.photo is ignored here on purpose -->
   <section class="hero" id="hero"></section>
+
+  <div id="awards"></div>
+
+  <div id="featured"></div>
 
   <div id="categories"></div>
 </main>
@@ -32,6 +38,6 @@
 <script src="js/data.js"></script>
 <script src="js/site.js"></script>
 <script src="js/edit.js" defer></script>
-<script>renderHome(); polish(); reveal();</script>
+<script>renderNav('index.html'); renderHome(); polish(); reveal();</script>
 </body>
 </html>

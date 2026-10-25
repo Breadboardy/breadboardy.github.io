@@ -3,9 +3,15 @@
 const esc = s => String(s).replace(/[&<>"]/g, c =>
   ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
 
+/* "[? ... ]" notes are reminders for Callum in data.js — never show them on the page */
+function stripNotes(text) {
+  return String(text || '').replace(/\[\?[^\]]*\]/g, '').replace(/[ \t]{2,}/g, ' ').trim();
+}
+
 function prose(text, what) {
-  if (!text || !text.trim()) return `<span class="todo">TODO &mdash; ${esc(what)}</span>`;
-  return text.trim().split(/\n\s*\n/)
+  const t = stripNotes(text);
+  if (!t) return '';                     // blank renders as nothing, not a placeholder
+  return t.split(/\n\s*\n/)
     .map(p => `<p>${esc(p.trim()).replace(/\n/g, '<br>')}</p>`).join('');
 }
 
@@ -91,12 +97,34 @@ function renderHome() {
     <div class="who">
       <h1>Hi, I’m ${esc(SITE.name || 'Callum')}.</h1>
       <p class="role">${SITE.role ? esc(SITE.role)
-        : '<span class="todo">TODO — one line. what do you build?</span>'}</p>
+        : ''}</p>
       <div class="intro">${prose(SITE.intro, '3-4 sentences in your own words. who you are, what you build, what you are working on right now. (SITE.intro in data.js, or the Edit button)')}</div>
       ${SITE.now ? `<p class="now"><b>Right now:</b> ${esc(SITE.now)}</p>` : ''}
     </div>`;
 
-  /* three categories, each with its own grid */
+  /* awards — externally judged, so it goes above my own work */
+  const awEl = document.getElementById('awards');
+  if (awEl) {
+    const won = (typeof AWARDS !== 'undefined' ? AWARDS : []).filter(a => a.title);
+    awEl.innerHTML = won.length ? `
+      <div class="awards">
+        ${won.map(a => {
+          const yr = (a.date || '').slice(0, 4);
+          return `<a class="award" href="about.html">
+            <span class="k">Award</span>
+            <b>${esc(a.title)}</b>${yr ? `<i>${esc(yr)}</i>` : ''}
+          </a>`;
+        }).join('')}
+      </div>` : '';
+  }
+
+  /* featured — the lead, up top */
+  const feat = PROJECTS.filter(p => p.category && p.featured);
+  const featEl = document.getElementById('featured');
+  if (featEl) featEl.innerHTML = feat.length
+    ? `<div class="feat-row">${feat.map(featuredCard).join('')}</div>` : '';
+
+  /* three categories — every project appears here, featured or not */
   const host = document.getElementById('categories');
   host.innerHTML = CATEGORIES.map(cat => {
     const items = PROJECTS.filter(p => p.category === cat.id);
@@ -116,9 +144,26 @@ function card(p) {
   const sub = p.tagline || (p.tags || []).slice(0, 3).join(' · ');
   return `
     <a class="card" href="project.html?id=${encodeURIComponent(p.id)}">
-      <b>${esc(p.name)}</b>
-      <s>${esc(sub)}</s>
-      <em class="${p.status === 'built' ? 'built' : ''}">${esc(p.status)}</em>
+      ${art(p)}
+      <div class="card-text">
+        <b>${esc(p.name)}</b>
+        <s>${esc(sub)}</s>
+        <em class="${p.status === 'built' ? 'built' : ''}">${esc(p.status)}</em>
+      </div>
+    </a>`;
+}
+
+/* the big lead card(s) — best work, up top, to pull a visitor in */
+function featuredCard(p) {
+  const sub = p.tagline || (p.tags || []).slice(0, 3).join(' · ');
+  return `
+    <a class="feat" href="project.html?id=${encodeURIComponent(p.id)}">
+      ${art(p, 'feat-art')}
+      <div class="feat-text">
+        <b>${esc(p.name)}</b>
+        <s>${esc(sub)}</s>
+        <span class="go">See the build &rarr;</span>
+      </div>
     </a>`;
 }
 
@@ -133,10 +178,15 @@ function hueOf(id) {
   return 96 + (h % 124);            // 96deg .. 220deg
 }
 
+function photoOf(p) {
+  if (Array.isArray(p.photos) && p.photos.length) return p.photos[0][0];
+  return p.image || '';
+}
 function art(p, cls = 'art') {
-  return p.image
-    ? `<div class="${cls} has-img" style="background-image:url('${esc(p.image)}')"></div>`
-    : `<div class="${cls}"></div>`;
+  const src = photoOf(p);
+  return src
+    ? `<div class="${cls} has-img" style="background-image:url('${esc(src)}')"></div>`
+    : `<div class="${cls}" style="--h:${hueOf(p.id)}"></div>`;
 }
 
 /* ---------- project detail ---------- */
@@ -176,7 +226,7 @@ function renderProject() {
     <div class="p-head">
       <h1>${esc(p.name)}</h1>
       <p class="tagline">${p.tagline ? esc(p.tagline)
-        : '<span class="todo">TODO &mdash; one line: what is this?</span>'}</p>
+        : ''}</p>
       <div class="p-meta">
         <span class="status ${p.status === 'built' ? 'built' : ''}">${esc(p.status)}</span>
         <span class="btn">started ${esc(p.started)}</span>
@@ -193,11 +243,14 @@ function renderProject() {
             ${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}
           </figure>`).join('')}
       </div>` : ''}
-    ${STEPS.map(([key, heading, isKey], n) => `
-      <section class="step ${isKey ? 'key' : ''}">
-        <div class="num">0${n + 1}</div>
-        <h2>${heading}</h2>
-        ${prose(p[key], heading.toLowerCase() + '?')}
+    ${STEPS
+        .map(([key, heading, isKey]) => ({ body: prose(p[key], ''), heading, isKey }))
+        .filter(st => st.body)                       /* nothing written -> no section at all */
+        .map((st, n) => `
+      <section class="step ${st.isKey ? 'key' : ''}">
+        <div class="num">${String(n + 1).padStart(2, '0')}</div>
+        <h2>${st.heading}</h2>
+        ${st.body}
       </section>`).join('')}
     <nav class="p-nav">
       <span>${prev ? `<a href="project.html?id=${encodeURIComponent(prev.id)}">← ${esc(prev.name)}</a>` : ''}</span>
@@ -217,7 +270,7 @@ function renderLog() {
     <article class="entry">
       <div class="date">${esc(niceDate(e.date))}</div>
       <h2>${e.title ? esc(e.title)
-        : '<span class="todo">TODO &mdash; give this week a title</span>'}</h2>
+        : ''}</h2>
       ${e.body ? `<div class="mins">${Math.max(1, Math.round(e.body.trim().split(/\s+/).length / 200))} min read</div>` : ''}
       ${prose(e.body, 'what did you work on? what broke? what did you figure out? 100-150 words.')}
     </article>`).join('');
@@ -238,10 +291,10 @@ function renderTalks() {
         ? `<img src="${esc(t.thumb)}" alt="${esc(t.title)}">`
         : '<span>no thumbnail yet</span>'}</div>
       <div class="body">
-        <h3>${t.title ? esc(t.title) : '<span class="todo">TODO — title</span>'}</h3>
+        <h3>${t.title ? esc(t.title) : ''}</h3>
         <div class="when">${[niceDate(t.date), proj && proj.name].filter(Boolean).join(' · ') || '—'}</div>
         ${t.blurb ? `<p>${esc(t.blurb)}</p>`
-          : `<p><span class="todo">TODO &mdash; record 60-90s of you explaining it, then write a line here.</span></p>`}
+          : ''}
         ${t.url ? `<div><a href="${esc(t.url)}">Watch →</a></div>` : ''}
       </div>
     </article>`; }).join('');
@@ -266,7 +319,7 @@ function renderAbout() {
         <div class="pid-text">
           <h1>${esc(SITE.name || 'Callum')}</h1>
           <p class="headline">${PROFILE.headline ? esc(PROFILE.headline)
-            : '<span class="todo">TODO — one line under your name. what you do, in plain words.</span>'}</p>
+            : ''}</p>
           <p class="meta">
             ${PROFILE.location ? esc(PROFILE.location) + ' · ' : ''}
             ${PROJECTS.filter(p => p.status === 'built').length} projects built
@@ -292,17 +345,15 @@ function renderAbout() {
       <h2>More about me.</h2>
       ${SITE.about && SITE.about.trim()
         ? prose(SITE.about, '')
-        : `<span class="todo">TODO &mdash; this is the big one. Write properly here, as much as you
-           want. How old you are, that you’re homeschooled through Hickman, what got you into
-           building things, what you’re obsessed with right now, what you’re looking for in a
-           school. Leave a blank line between paragraphs and they’ll lay out on their own.</span>`}
+        : ''}
     </section>`;
 
   /* --- education --- */
-  const edu = section('Education', EDUCATION.map(e => `
+  const eduRows = EDUCATION.filter(e => e.what || e.where || e.detail);
+  const edu = eduRows.length === 0 ? '' : section('Education', eduRows.map(e => `
     <div class="row">
       <div class="row-main">
-        <h3>${e.what ? esc(e.what) : '<span class="todo">TODO — e.g. Homeschooled</span>'}</h3>
+        <h3>${e.what ? esc(e.what) : ''}</h3>
         ${e.where ? `<div class="org">${esc(e.where)}</div>` : ''}
         ${e.detail ? `<p>${esc(e.detail)}</p>` : ''}
       </div>
@@ -331,13 +382,13 @@ function renderAbout() {
     </a>`).join(''), `${PROJECTS.length} total`);
 
   /* --- awards --- */
-  const awards = section('Awards &amp; competitions', AWARDS.map(a => `
+  const awRows = AWARDS.filter(a => a.title || a.detail);
+  const awards = awRows.length === 0 ? '' : section('Awards &amp; competitions', awRows.map(a => `
     <div class="row">
       <div class="row-main">
-        <h3>${a.title ? esc(a.title) : '<span class="todo">TODO — competition name and result</span>'}</h3>
+        <h3>${a.title ? esc(a.title) : ''}</h3>
         ${a.org ? `<div class="org">${esc(a.org)}</div>` : ''}
-        ${a.detail ? `<p>${esc(a.detail)}</p>`
-          : '<p><span class="todo">TODO — what the problem was, what your code did, why you won.</span></p>'}
+        ${prose(a.detail, '')}
         ${a.url ? `<a href="${esc(a.url)}">Results →</a>` : ''}
       </div>
       <div class="row-when">${niceDate(a.date) || '—'}</div>

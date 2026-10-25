@@ -26,6 +26,7 @@ const PROJECTS = [
   {
     id:      "meatball",
     category: "humanoids",
+    featured: true,
     name:    "MEATBALL",
     tagline: "A 4 foot 3 humanoid robot I 3D printed, with two arms that work.",
     tags:    ["robotics", "3d printing", "python", "servos", "computer vision"],
@@ -72,6 +73,7 @@ const PROJECTS = [
   {
     id:      "geedo",                     // used in the URL: project.html?id=geedo
     category: "consumer",
+    featured: true,
     name:    "Geedo",
     tagline: "Geedo is a more affordable way to get personal assistance and companionship. ",                          // one line. what it is, in plain words.
     tags:    ["hardware", "pcb design", "firmware", "python"],
