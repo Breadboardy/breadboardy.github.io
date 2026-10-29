@@ -130,6 +130,23 @@ function renderHome() {
   if (featEl) featEl.innerHTML = feat.length
     ? `<div class="feat-row">${feat.map((p, i) => featuredCard(p, i === 0)).join('')}</div>` : '';
 
+  /* impact — why the work matters. only renders what is filled in. */
+  const impEl = document.getElementById('impact');
+  if (impEl) {
+    const I = (typeof IMPACT !== 'undefined') ? IMPACT : null;
+    const items = I ? (I.items || []).filter(it => (it.big || it.label) && it.note) : [];
+    const stmt = I && I.statement && I.statement.trim();
+    impEl.innerHTML = (stmt || items.length) ? `
+      <div class="sec-head"><h2>Impact</h2></div>
+      ${stmt ? `<p class="impact-say">${esc(stmt)}</p>` : ''}
+      ${items.length ? `<div class="impact">${items.map(it => `
+        <div class="imp">
+          ${it.big ? `<span class="n">${esc(it.big)}</span>` : ''}
+          ${it.label ? `<span class="k">${esc(it.label)}</span>` : ''}
+          <p>${esc(it.note)}</p>
+        </div>`).join('')}</div>` : ''}` : '';
+  }
+
   /* three categories — every project appears here, featured or not */
   const host = document.getElementById('categories');
   host.innerHTML = CATEGORIES.map(cat => {

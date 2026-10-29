@@ -9,6 +9,29 @@
    ============================================================ */
 
 /* ============================================================
+   IMPACT  —  why the work matters, and who it reached.
+   Only put things here you can point at. A number you cannot
+   back up is worse than no number — the AIRES judges liked you
+   precisely because your figures were real.
+   ============================================================ */
+
+const IMPACT = {
+  /* one or two sentences. the thread running through your projects. */
+  statement: "",
+
+  items: [
+    { big: "1st",  label: "AIRES competition",
+      note: "Won with a team of three — a designer, a researcher and me as the coder." },
+
+    { big: "2026", label: "Science fair",
+      note: "Demoed MEATBALL in public, explaining it to people who walked up to the booth." },
+
+    { big: "",     label: "",
+      note: "" }
+  ]
+};
+
+/* ============================================================
    CATEGORIES  —  the three groups on the home page, in order.
    A project with category: "" is hidden from the home page but
    its own page still works. Reorder these to reorder the site.
