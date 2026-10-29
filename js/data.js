@@ -16,15 +16,15 @@
    ============================================================ */
 
 const IMPACT = {
+  /* the heading above these tiles — rename it to whatever fits */
+  heading: "Recognition",
+
   /* one or two sentences. the thread running through your projects. */
   statement: "",
 
   items: [
     { big: "1st",  label: "AIRES competition",
       note: "Won with a team of three — a designer, a researcher and me as the coder." },
-
-    { big: "2026", label: "Science fair",
-      note: "Demoed MEATBALL in public, explaining it to people who walked up to the booth." },
 
     { big: "",     label: "",
       note: "" }
@@ -40,11 +40,56 @@ const IMPACT = {
 const CATEGORIES = [
   { id: "humanoids", name: "Humanoids & arms",      blurb: "" },
   { id: "consumer",  name: "Consumer electronics",  blurb: "" },
-  { id: "more",      name: "More projects",         blurb: "" }
+  { id: "more",      name: "More projects",         blurb: "" },
+  { id: "talks",     name: "Presentations",         blurb: "" }
 ];
 
 
 const PROJECTS = [
+  {
+    id:      "impact",
+    category: "more",
+    name:    "Impact",
+    tagline: "A Breakout-style game on a single 8x8 LED grid, with a knob for the paddle.",
+    tags:    ["arduino", "game", "electronics"],
+    status:  "built",
+    started: "2024-10",
+    repo:    "",
+    demo:    "",
+    image:   "",
+
+    goal:      "I wanted to build an actual arcade game out of parts rather than write one on a screen — something with a real knob you turn and a real button you press. [? where did the name Impact come from?]",
+    firstTry:  "One 8x8 MAX7219 LED matrix for the screen, driven with the LedControl library. A potentiometer on A0 moves the paddle, a button launches the ball, and there is an RGB LED next to it for status.\n\nThe ball has an x and a y direction and flips one of them whenever it hits a wall. You get three lives.",
+    wentWrong: "[? this one is yours. An 8x8 grid is 64 pixels for a paddle, a ball and the score all at once — what was the hardest part to get working? A guess at the kind of thing: the ball moving too fast to follow, or the paddle feeling jumpy because a potentiometer never sits still.]",
+    changed:   "I used the RGB LED as the lives counter instead of trying to fit a score onto the grid, since there is no room for numbers on 8x8. It goes green for three lives, blue for two and cyan for one, so you can read how you are doing without taking a pixel off the playfield.\n\nI also rewrote the whole thing four days after the first version. [? what did the second version change?]",
+    nowDoes:   "It plays. You turn the knob to move the paddle, press the button to launch, and the ball bounces off the left, right and top walls. Miss it and you lose a life, and the RGB LED changes colour.",
+    next:      "[? would you add bricks, a score, more levels — or leave it?]"
+  },
+
+  {
+    id:      "science-in-the-park",
+    category: "talks",
+    name:    "Science in the Park 2026",
+    tagline: "I took MEATBALL to Science in the Park and demoed it to the public.",
+    tags:    ["outreach", "robotics", "public demo"],
+    status:  "built",
+    started: "2026-10",
+    repo:    "",
+    demo:    "",
+    image:   "img/meatball-fair-demo.jpg",
+    photos:  [
+      ["img/meatball-fair-demo.jpg",  "Explaining MEATBALL at the booth"],
+      ["img/meatball-fair-booth.jpg", "At the stand"]
+    ],
+
+    goal:      "[? why did you want to show MEATBALL in public rather than just build it?]",
+    firstTry:  "[? what did you prepare beforehand — a demo, a script, something for people to try?]",
+    wentWrong: "[? what did not go to plan on the day? a crash, a flat battery, a question you could not answer?]",
+    changed:   "[? what did you do differently as the day went on, once you had explained it a few times?]",
+    nowDoes:   "[? what actually happened — roughly how many people stopped, what did they ask, what surprised them?]",
+    next:      "[? would you do another one? what would you bring?]"
+  },
+
 
   {
     id:      "meatball",
@@ -62,9 +107,7 @@ const PROJECTS = [
       ["img/meatball-front.jpg",   "Head on"],
       ["img/meatball-face.jpg",    "The painted face"],
       ["img/meatball-arms.jpg",    "Both arms"],
-      ["img/meatball-gripper.jpg", "Gripper"],
-      ["img/meatball-fair-demo.jpg",  "Demoing at the science fair"],
-      ["img/meatball-fair-booth.jpg", "At the booth"]
+      ["img/meatball-gripper.jpg", "Gripper"]
     ],
 
     goal:      "I wanted to build a full-sized humanoid with two arms that could actually pick things up and do chores. The reason why I wanted to build my own is that humanoid robots are very expensive and hard to build.",

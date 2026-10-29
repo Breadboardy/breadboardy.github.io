@@ -137,7 +137,7 @@ function renderHome() {
     const items = I ? (I.items || []).filter(it => (it.big || it.label) && it.note) : [];
     const stmt = I && I.statement && I.statement.trim();
     impEl.innerHTML = (stmt || items.length) ? `
-      <div class="sec-head"><h2>Impact</h2></div>
+      <div class="sec-head"><h2>${esc((I && I.heading) || 'Recognition')}</h2></div>
       ${stmt ? `<p class="impact-say">${esc(stmt)}</p>` : ''}
       ${items.length ? `<div class="impact">${items.map(it => `
         <div class="imp">
