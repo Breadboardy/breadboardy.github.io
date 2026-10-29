@@ -44,8 +44,15 @@ function toggleTheme() {
 /* ---------- shared chrome ---------- */
 
 function renderNav(page) {
-  const links = [['index.html','Projects'], ['log.html','Build log'],
-                 ['talks.html','Talks'], ['about.html','About']];
+  /* a page with nothing on it is worse than no link — hide until it has content */
+  const hasLog   = typeof LOG   !== 'undefined' && LOG.some(e => e.body && e.body.trim());
+  const hasTalks = typeof TALKS !== 'undefined' && TALKS.some(t => t.url && t.url.trim());
+  const links = [
+    ['index.html', 'Projects'],
+    ...(hasLog   ? [['log.html',   'Build log']] : []),
+    ...(hasTalks ? [['talks.html', 'Talks']]     : []),
+    ['about.html', 'About'],
+  ];
   document.getElementById('nav').innerHTML = `
     <div class="bar">
       <a class="brand" href="index.html"><span class="dot"></span>${esc((SITE.name || 'callum').toLowerCase())}</a>
@@ -92,9 +99,20 @@ function renderHome() {
 
   /* intro — name, one line, then the intro. no photo yet, by request.
      the words come from SITE.role and SITE.intro in data.js */
+  const won = (typeof AWARDS !== 'undefined' ? AWARDS : []).filter(a => a.title);
+  const laurel = won.map(a => {
+    const yr = (a.date || '').slice(0, 4);
+    return `<a class="laurel" href="about.html">
+      <span class="k">Award</span>
+      <span class="t">${esc(a.title)}</span>
+      ${yr ? `<span class="y">${esc(yr)}</span>` : ''}
+    </a>`;
+  }).join('');
+
   const hero = document.getElementById('hero');
   if (hero) hero.innerHTML = `
     <div class="who">
+      ${laurel}
       <h1>Hi, I’m ${esc(SITE.name || 'Callum')}.</h1>
       <p class="role">${SITE.role ? esc(SITE.role)
         : ''}</p>
@@ -102,21 +120,9 @@ function renderHome() {
       ${SITE.now ? `<p class="now"><b>Right now:</b> ${esc(SITE.now)}</p>` : ''}
     </div>`;
 
-  /* awards — externally judged, so it goes above my own work */
+  /* awards — judged by someone else, so they lead, above my own work */
   const awEl = document.getElementById('awards');
-  if (awEl) {
-    const won = (typeof AWARDS !== 'undefined' ? AWARDS : []).filter(a => a.title);
-    awEl.innerHTML = won.length ? `
-      <div class="awards">
-        ${won.map(a => {
-          const yr = (a.date || '').slice(0, 4);
-          return `<a class="award" href="about.html">
-            <span class="k">Award</span>
-            <b>${esc(a.title)}</b>${yr ? `<i>${esc(yr)}</i>` : ''}
-          </a>`;
-        }).join('')}
-      </div>` : '';
-  }
+  if (awEl) awEl.innerHTML = '';
 
   /* featured — the lead, up top */
   const feat = PROJECTS.filter(p => p.category && p.featured);
@@ -305,8 +311,8 @@ function renderTalks() {
 
 function renderAbout() {
   const el = document.getElementById('about');
-  const section = (title, body, note) => `
-    <section class="pcard">
+  const section = (title, body, note, cls) => `
+    <section class="pcard${cls ? ' ' + cls : ''}">
       <div class="pcard-head"><h2>${title}</h2>${note ? `<span class="note">${note}</span>` : ''}</div>
       ${body}
     </section>`;
@@ -393,7 +399,7 @@ function renderAbout() {
         ${a.url ? `<a href="${esc(a.url)}">Results →</a>` : ''}
       </div>
       <div class="row-when">${niceDate(a.date) || '—'}</div>
-    </div>`).join(''), 'externally judged');
+    </div>`).join(''), 'externally judged', 'award-card');
 
   /* --- languages --- */
   const langs = section('Languages', `<div class="belt">${LANGUAGES.map(l => `
@@ -401,7 +407,7 @@ function renderAbout() {
       ? `<i>${esc(l.level)}</i>`
       : '<i style="color:var(--warn)">level?</i>'}</span>`).join('')}</div>`);
 
-  el.innerHTML = id + yap + openTo + edu + skills + projects + awards + langs;
+  el.innerHTML = id + awards + yap + openTo + edu + skills + projects + langs;
 }
 
 

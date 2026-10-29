@@ -331,7 +331,7 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 /* ---- featured lead ---- */
 .feat-row {
   /* top margin leaves headroom for the breadboard guy sitting on the lead card */
-  display: grid; gap: 20px; margin: 104px 0 8px;
+  display: grid; gap: 20px; margin: 78px 0 8px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 .feat {
@@ -474,7 +474,7 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 .hero-band .hero .now b { color: #fff; }
 
 /* the award strip moves up against the dark band nicely */
-#awards { margin-top: 26px; }
+#awards { display: none; }
 
 @media (max-width: 600px) {
   .hero-band .hero { padding: 44px 0 86px; }
@@ -524,3 +524,52 @@ html[data-theme="dark"] .perch { --line: rgba(0,0,0,.8); }
 @media (max-width: 600px) {
   .perch { width: 74px; top: -52px; right: 14px; }
 }
+
+/* ============================================================
+   the award, leading the hero — judged by someone else, so it
+   gets the top of the page
+   ============================================================ */
+
+.laurel {
+  display: inline-flex; align-items: center; gap: 0;
+  margin: 0 0 26px;
+  color: inherit;
+  border: 1px solid rgba(232,200,121,.55);
+  border-radius: 3px;
+  background: rgba(232,200,121,.10);
+  overflow: hidden;
+  transition: border-color .25s var(--ease), background .25s var(--ease);
+}
+.laurel:hover { text-decoration: none; border-color: #e8c879; background: rgba(232,200,121,.18); }
+
+.laurel .k {
+  font: 800 10px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase;
+  color: #0f1512; background: #e8c879;
+  padding: 9px 11px; align-self: stretch; display: flex; align-items: center;
+}
+.laurel .t {
+  font-size: 17px; font-weight: 800; letter-spacing: -.02em;
+  color: #fff; padding: 0 13px;
+}
+.laurel .y {
+  font: 800 12px/1 var(--mono); letter-spacing: .08em;
+  color: #e8c879; padding-right: 14px;
+}
+
+@media (max-width: 600px) {
+  .laurel { margin-bottom: 20px; }
+  .laurel .t { font-size: 14.5px; padding: 0 10px; }
+  .laurel .k { padding: 8px 9px; font-size: 9px; letter-spacing: .16em; }
+  .laurel .y { font-size: 11px; padding-right: 10px; }
+}
+
+/* ---- and the matching section on the About page, which now leads ---- */
+
+.pcard.award-card {
+  border-top: 3px solid #c9a449;
+  padding-top: 26px;
+}
+.pcard.award-card .pcard-head h2 { color: #8a6d1f; }
+html[data-theme="dark"] .pcard.award-card .pcard-head h2 { color: #e8c879; }
+.pcard.award-card .row-main h3 { font-size: 26px; letter-spacing: -.035em; }
+.pcard.award-card .row-when { font-size: 13px; color: var(--ink-mid); }
