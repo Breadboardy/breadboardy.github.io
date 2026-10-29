@@ -103,20 +103,20 @@ const PROJECTS = [
     id:      "led-mask",
     category: "more",
     name:    "LED Mask",
-    tagline: "An LED mask I made for Halloween, with a face that animates across 256 LEDs.",
+    tagline: "My first LED mask, built on four chained dot-matrix modules.",
     tags:    ["leds", "esp32", "wearable", "animation"],
     status:  "built",
-    started: "2026-10",
+    started: "2025-10",
     repo:    "",
     demo:    "",
     image:   "",
 
-    goal:      "I wanted a Halloween costume with a face that actually moves, instead of a fixed mask. The plan was an 8x32 LED panel worn across my mouth, running animations I drew myself. [? why a mask rather than something else?]",
-    firstTry:  "Before touching any hardware I built a simulator that runs in a browser, so I could design animations on my laptop and see them straight away instead of reflashing a board every time I changed a pixel.\n\nThen I started on real hardware with an ESP32, and wrote small sketches first: one to check the panel lit up at all, one to check the colours were in the order I thought, and one to get a face on it.",
-    wentWrong: "I moved the project onto a spare ESP8266 and the panel started freezing mid-animation. It turned out FastLED has to write the whole frame to the LEDs in one uninterrupted go, and on an ESP8266 the WiFi stack interrupts it, so frames get dropped and the panel locks up. [? how long did that take to work out?]\n\nThe other problem was physical. It ran fine on jumper wires on the bench and kept cutting out once it was on the mask, because a costume gets moved around and jumper wires do not stay put.",
-    changed:   "For the freezing, I set FASTLED_ALLOW_INTERRUPTS to 0 so nothing can interrupt a frame while it is being written.\n\nFor the wiring, I soldered it instead of using jumpers, and powered the board from the panel's own 5V through VIN rather than running a second supply.\n\nThe firmware is written so the same code runs on an Arduino Mega, an ESP32 or an ESP8266 without changing anything except which pins it uses — so I could test on whatever board was on the desk. Every animation is a setup() and a step() with the same names as the simulator, so anything I design in the browser ports straight over.",
-    nowDoes:   "It runs about fifteen animations on a 256-LED panel: a cartoon face, a glitchy version of it, eyes in the dark, haunted static, VHS tracking, SYSTEM ERROR, no signal, blood, candles, a storm, a night sky and some scrolling text.\n\nOne button cycles to the next animation and the other pokes the face, which makes it react. It runs off a USB power bank, and I designed the mount for it in OpenSCAD.",
-    next:      "[? what would you change for next Halloween?]"
+    goal:      "I wanted a Halloween costume with a face that moved instead of a fixed mask. [? what gave you the idea?]",
+    firstTry:  "I chained four MAX7219 8x8 dot-matrix modules together to make one 32x8 display, driven off an Arduino with the LedControl library. Monochrome red, one colour, no brightness per pixel beyond the module's global setting.",
+    wentWrong: "Chained matrix modules do not map to coordinates the way you expect. Depending on how the modules are oriented and wired, your x and y can come out mirrored or upside down, and nothing in the code tells you which. [? how did you first notice it was wrong?]",
+    changed:   "I wrote a throwaway sketch whose whole job was to light one single LED at a chosen x and y, with REVERSE_X and REVERSE_Y flags I could flip until the right pixel came on. Once I knew the mapping, everything else could be drawn in normal coordinates.\n\nThen I built the animation sketch on top of that: a frame every 40ms for about 25fps, switching animation every five seconds, running at brightness 1 out of 15 because it is going on a face.",
+    nowDoes:   "It runs animations on a 32x8 red dot-matrix panel at around 25 frames a second, cycling automatically. [? did you actually wear it?]",
+    next:      "I rebuilt it the next year as LED Mask v2, on a full-colour addressable panel instead of monochrome modules."
   },
 
   {
@@ -143,7 +143,7 @@ const PROJECTS = [
     id:      "led-mask-v2",
     category: "more",
     name:    "LED Mask v2",
-    tagline: "",
+    tagline: "An LED mask I made for Halloween, with a face that animates across 256 LEDs.",
     tags:    ["leds", "esp32", "wearable"],
     status:  "in progress",
     started: "2026-10",
@@ -151,12 +151,12 @@ const PROJECTS = [
     demo:    "",
     image:   "",
 
-    goal:      "",
-    firstTry:  "",
-    wentWrong: "",
-    changed:   "",
-    nowDoes:   "",
-    next:      ""
+    goal:      "I wanted to redo my LED mask properly. The first one was four monochrome dot-matrix modules; this time I wanted full colour, real animations, and a face that reacts. [? what specifically bugged you about v1?]",
+    firstTry:  "Before touching any hardware I built a simulator that runs in a browser, so I could design animations on my laptop and see them straight away instead of reflashing a board every time I changed a pixel.\n\nThen I started on real hardware with an ESP32, and wrote small sketches first: one to check the panel lit up at all, one to check the colours were in the order I thought, and one to get a face on it.",
+    wentWrong: "I moved the project onto a spare ESP8266 and the panel started freezing mid-animation. It turned out FastLED has to write the whole frame to the LEDs in one uninterrupted go, and on an ESP8266 the WiFi stack interrupts it, so frames get dropped and the panel locks up. [? how long did that take to work out?]\n\nThe other problem was physical. It ran fine on jumper wires on the bench and kept cutting out once it was on the mask, because a costume gets moved around and jumper wires do not stay put.",
+    changed:   "For the freezing, I set FASTLED_ALLOW_INTERRUPTS to 0 so nothing can interrupt a frame while it is being written.\n\nFor the wiring, I soldered it instead of using jumpers, and powered the board from the panel's own 5V through VIN rather than running a second supply.\n\nThe firmware is written so the same code runs on an Arduino Mega, an ESP32 or an ESP8266 without changing anything except which pins it uses — so I could test on whatever board was on the desk. Every animation is a setup() and a step() with the same names as the simulator, so anything I design in the browser ports straight over.",
+    nowDoes:   "It runs about fifteen animations on a 256-LED panel: a cartoon face, a glitchy version of it, eyes in the dark, haunted static, VHS tracking, SYSTEM ERROR, no signal, blood, candles, a storm, a night sky and some scrolling text.\n\nOne button cycles to the next animation and the other pokes the face, which makes it react. It runs off a USB power bank, and I designed the mount for it in OpenSCAD.",
+    next:      "[? what would you change for next Halloween?]"
   },
 
   {
