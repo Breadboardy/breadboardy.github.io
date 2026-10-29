@@ -123,7 +123,7 @@ const PROJECTS = [
     id:      "void",
     category: "more",
     name:    "VOID",
-    tagline: "A handheld games console I built on an ESP32, with three games on it.",
+    tagline: "A handheld games console I built that reflashes itself to swap between 13 games.",
     tags:    ["esp32", "arduino", "embedded", "game dev"],
     status:  "built",
     started: "2026-01",
@@ -131,12 +131,12 @@ const PROJECTS = [
     demo:    "",
     image:   "",
 
-    goal:      "[? what made you build a console instead of just one game?] I wanted a handheld I could load different games onto from a menu, like a tiny Game Boy.",
-    firstTry:  "[? what was the first version like, and what did it run on?]",
-    wentWrong: "Redrawing the whole screen every frame was too slow. [? what did that actually look like when you ran it — flickering, lag, something else?]",
-    changed:   "In ZombieNights I switched to dirty rectangles, which means only redrawing the parts of the screen that actually changed instead of all of it. Most of the screen is the same from one frame to the next, so there is no point drawing it again.",
-    nowDoes:   "There is a menu you boot into and three games: ZombieNights, TowerDefense and StickmanQuest. They are separate Arduino sketches and the menu loads them.",
-    next:      "[? more games, or better hardware?]"
+    goal:      "I wanted a handheld console I could load lots of different games onto from a menu, like a tiny Game Boy. [? what made you want to build the console instead of just making one game?]",
+    firstTry:  "The first version was a single sketch with the menu and three games all compiled into it: ZombieNights, TowerDefense and StickmanQuest. That works fine for three games. [? did you hit the flash limit, or did you see it coming? what made you change approach?]",
+    wentWrong: "An ESP32 only runs one program. Everything has to be compiled into one binary, and the flash fills up fast, so a menu that just calls into a few built-in games does not scale past a handful.\n\nThe second thing was my own fault. While building the first batch of games I saved each one as a file called CODE inside its own folder, so the folder was the name and the file wasn't. That was fine on my computer. The moment I uploaded them somewhere that only looks at filenames, they all collided and overwrote each other, and I lost games that way. I had two files called CODE and code, plus ones called 404, FPS and RACING with no extension at all.",
+    changed:   "I stopped treating the firmware as fixed and started treating it as data.\n\nEvery game now compiles to its own .bin file that lives on the SD card in a /games folder. The launcher reads the card, lists whatever .bin files it finds, and when you pick one it uses Update.begin with U_FLASH to overwrite the ESP32's own program with that game's binary, then calls ESP.restart. The console boots straight into the game. To get back, every game includes a header I wrote called VOID_Return.h, which checks the button the instant it boots and, if you are holding it, reads launcher.bin back off the SD card and reflashes to the launcher.\n\nI made the header deliberately easy to bolt on: copy one file into the game's folder, add one #include, and call voidReturnCheck() as the first line of setup(). The game's own code never has to change. There's also an _ADD_NEW_GAMES_HERE folder with the header and instructions already in it, so adding a game later is copy-paste.\n\nAnd I renamed everything properly.",
+    nowDoes:   "There are 13 games on it plus the launcher: Forest Survivor, Cyber Void FPS, Soccer Championship, Tower Defense, Tower Defense 3D, Beach Resort, Kart Racing, Space Station, Project 404, Stickman Clash, Stickman Arena 3D, Pilfering Pirates and Nuke Wars. Several of them are 3D, running on a microcontroller.\n\nThe hardware is an ESP32-S3 with an ILI9341 screen, a joystick, one button and an SD card module. You pick a game from the menu, it flashes and boots in a few seconds, and holding the button while it restarts takes you back to the menu.",
+    next:      "[? what would you add next — more games, better hardware, a case?]"
   },
 
   {
