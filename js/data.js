@@ -49,6 +49,7 @@ const PROJECTS = [
   {
     id:      "impact",
     category: "more",
+    size:     "small",   // large | medium | small — how much room it gets
     name:    "Impact",
     tagline: "A Breakout-style game on a single 8x8 LED grid, with a knob for the paddle.",
     tags:    ["arduino", "game", "electronics"],
@@ -69,6 +70,7 @@ const PROJECTS = [
   {
     id:      "science-in-the-park",
     category: "talks",
+    size:     "medium",   // large | medium | small — how much room it gets
     name:    "Science in the Park 2026",
     tagline: "I took MEATBALL to Science in the Park and demoed it to the public.",
     tags:    ["outreach", "robotics", "public demo"],
@@ -94,6 +96,7 @@ const PROJECTS = [
   {
     id:      "meatball",
     category: "humanoids",
+    size:     "large",   // large | medium | small — how much room it gets
     featured: true,
     name:    "MEATBALL",
     tagline: "A humanoid robot meant to make humanoid robots more accessible and cheaper.",
@@ -121,6 +124,7 @@ const PROJECTS = [
   {
     id:      "breadboard-robot",
     category: "humanoids",
+    size:     "medium",   // large | medium | small — how much room it gets
     name:    "Breadboard Robot",
     tagline: "A two-foot bipedal robot I am designing, meant to walk and jump on a low budget.",
     tags:    ["robotics", "actuators", "esp32", "cad"],
@@ -141,6 +145,7 @@ const PROJECTS = [
   {
     id:      "geedo",                     // used in the URL: project.html?id=geedo
     category: "consumer",
+    size:     "large",   // large | medium | small — how much room it gets
     featured: true,
     name:    "Geedo",
     tagline: "Geedo is a more affordable way to get personal assistance and companionship. ",                          // one line. what it is, in plain words.
@@ -168,6 +173,7 @@ const PROJECTS = [
   {
     id:      "led-mask",
     category: "more",
+    size:     "small",   // large | medium | small — how much room it gets
     name:    "LED Mask",
     tagline: "My first LED mask, built on four chained dot-matrix modules.",
     tags:    ["leds", "esp32", "wearable", "animation"],
@@ -188,6 +194,7 @@ const PROJECTS = [
   {
     id:      "void",
     category: "more",
+    size:     "large",   // large | medium | small — how much room it gets
     name:    "VOID",
     tagline: "A handheld games console I built that prevents my friends from becoming bored.",
     tags:    ["esp32", "arduino", "embedded", "game dev"],
@@ -208,6 +215,7 @@ const PROJECTS = [
   {
     id:      "led-mask-v2",
     category: "more",
+    size:     "medium",   // large | medium | small — how much room it gets
     name:    "LED Mask v2",
     tagline: "An LED mask I made for Halloween, with a face that animates across 256 LEDs.",
     tags:    ["leds", "esp32", "wearable"],

@@ -150,7 +150,9 @@ function renderHome() {
   /* three categories — every project appears here, featured or not */
   const host = document.getElementById('categories');
   host.innerHTML = CATEGORIES.map(cat => {
-    const items = PROJECTS.filter(p => p.category === cat.id);
+    const rank = { large: 0, medium: 1, small: 2 };
+    const items = PROJECTS.filter(p => p.category === cat.id)
+      .sort((a, b) => (rank[a.size] ?? 1) - (rank[b.size] ?? 1));
     if (!items.length) return '';
     return `
       <div class="sec-head">
@@ -164,14 +166,43 @@ function renderHome() {
 }
 
 function card(p) {
-  const sub = p.tagline || (p.tags || []).slice(0, 3).join(' · ');
+  const sub  = p.tagline || (p.tags || []).slice(0, 3).join(' · ');
+  const size = p.size || 'medium';
+  const href = `project.html?id=${encodeURIComponent(p.id)}`;
+  const st   = `<em class="${p.status === 'built' ? 'built' : ''}">${esc(p.status)}</em>`;
+
+  /* small — no picture, just a line. a four-day build should not get
+     the same slab as a two-year one. */
+  if (size === 'small') {
+    return `
+      <a class="card sm" href="${href}">
+        <b>${esc(p.name)}</b>
+        <s>${esc(sub)}</s>
+        ${st}
+      </a>`;
+  }
+
+  /* large — full width, picture beside the words rather than above them */
+  if (size === 'large') {
+    return `
+      <a class="card lg" href="${href}">
+        ${art(p, 'art')}
+        <div class="card-text">
+          <b>${esc(p.name)}</b>
+          <s>${esc(sub)}</s>
+          <div class="meta">${st}<span class="yr">${esc(p.started || '')}</span></div>
+        </div>
+      </a>`;
+  }
+
+  /* medium — the ordinary card */
   return `
-    <a class="card" href="project.html?id=${encodeURIComponent(p.id)}">
+    <a class="card md" href="${href}">
       ${art(p)}
       <div class="card-text">
         <b>${esc(p.name)}</b>
         <s>${esc(sub)}</s>
-        <em class="${p.status === 'built' ? 'built' : ''}">${esc(p.status)}</em>
+        ${st}
       </div>
     </a>`;
 }

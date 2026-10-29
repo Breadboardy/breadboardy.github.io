@@ -347,7 +347,7 @@ html[data-theme="dark"] .feat-art:not(.has-img) {
 .feat-text .go { font: 700 12px/1 var(--mono); letter-spacing: .08em; color: var(--accent); }
 
 /* ---- category grid: cards get an image on top ---- */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; align-items: start; }
 .card {
   display: block; flex-direction: unset; align-items: unset; flex-wrap: unset;
   padding: 0; border-bottom: 0; border: 1px solid var(--rule); border-radius: 4px;
@@ -613,4 +613,59 @@ html[data-theme="dark"] .pcard.award-card .pcard-head h2 { color: #e8c879; }
   .imp { border-right: 0; border-bottom: 1px solid var(--rule); }
   .imp:last-child { border-bottom: 0; }
   .impact-say { font-size: 17px; }
+}
+
+/* ============================================================
+   three sizes — a four-day build should not get the same slab
+   as a two-year one
+   ============================================================ */
+
+/* ---- LARGE: full width, picture beside the words ---- */
+.card.lg {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
+  border: 0; border-top: 2px solid var(--ink); border-radius: 0;
+  background: none; padding: 20px 0 4px; gap: 26px;
+}
+.card.lg:hover { border-color: var(--accent); }
+.card.lg .art {
+  aspect-ratio: 4 / 3; border-radius: 2px; width: 100%;
+}
+.card.lg .card-text { padding: 2px 0 0; }
+.card.lg .card-text b { font-size: 34px; letter-spacing: -.04em; line-height: 1.05; display: block; }
+.card.lg .card-text s { font-size: 16.5px; margin: 10px 0 0; max-width: 42ch; }
+.card.lg .meta { display: flex; align-items: baseline; gap: 14px; margin-top: 16px; }
+.card.lg .meta .yr { font: 700 11px/1 var(--mono); letter-spacing: .1em; color: var(--ink-faint); }
+
+/* ---- MEDIUM: the ordinary card, now borderless ---- */
+.card.md {
+  border: 0; border-radius: 0; background: none; padding: 0 0 4px;
+  border-top: 1px solid var(--rule);
+}
+.card.md:hover { border-top-color: var(--accent); }
+.card.md .art { aspect-ratio: 4 / 3; border-radius: 2px; margin-top: 16px; }
+.card.md .card-text { padding: 12px 0 0; }
+.card.md .card-text b { font-size: 20px; }
+
+/* ---- SMALL: no picture at all, one line ---- */
+.card.sm {
+  grid-column: 1 / -1;
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  border: 0; border-top: 1px solid var(--rule); border-radius: 0;
+  background: none; padding: 15px 0 14px;
+  transition: padding-left .25s var(--ease), border-color .2s var(--ease);
+}
+.card.sm:hover { padding-left: 10px; border-top-color: var(--accent); }
+.card.sm b { font-size: 21px; font-weight: 800; letter-spacing: -.03em; }
+.card.sm s { text-decoration: none; font-size: 14.5px; color: var(--ink-dim); flex: 1; min-width: 14ch; }
+.card.sm em { font-style: normal; font: 700 9.5px/1 var(--mono); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-faint); white-space: nowrap; }
+.card.sm em.built { color: var(--accent); }
+
+@media (max-width: 680px) {
+  .grid { grid-template-columns: 1fr; gap: 14px; }
+  .card.lg { grid-template-columns: 1fr; gap: 14px; }
+  .card.lg .card-text b { font-size: 25px; }
+  .card.sm b { font-size: 18px; }
+  .card.sm s { flex-basis: 100%; }
 }
