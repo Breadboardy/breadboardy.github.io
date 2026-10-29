@@ -44,8 +44,8 @@ const PROJECTS = [
       ["img/meatball-fair-booth.jpg", "At the booth"]
     ],
 
-    goal:      "I wanted to build a full sized humanoid with two arms that could actually pick things up and do chores. The reason why I wanted to build my own is that humanoid robots are very expensive and hard to build.",
-    firstTry:  "I tried designing my own arm but I soon realize that i could just steal other peoples designs. The design I chose to steal is the SO-101 robotic arm.",
+    goal:      "I wanted to build a full-sized humanoid with two arms that could actually pick things up and do chores. The reason why I wanted to build my own is that humanoid robots are very expensive and hard to build.",
+    firstTry:  "I tried designing my own arm but I soon realised that I could just steal other people's designs. The design I chose to steal was the SO-101 robotic arm.",
     wentWrong: "Almost nothing about the hardware stayed still.\n\nThe serial ports renumber every time you unplug something, so ACM0 and ACM1 swap and any port I had written down was wrong. Both wrist cameras report the exact same device name, so there is no way to tell them apart from a list. Some of the video devices open perfectly fine and then never send a single frame, because they are not cameras at all.\n\nThe worst one was the shoulder. If you hold the arm out at mid range that is where gravity pulls hardest, so the servo is fighting the most there. It does not fail straight away, it just slowly cooks itself while everything looks fine.",
     changed:   "I stopped hard coding anything. I wrote a script that takes a snapshot from every camera so I can see which one is which. I worked out the real limit is USB bandwidth, not power, because two raw 640x480 streams at 30fps are about 147 Mbps each.\n\nThen I built a safety layer that everything has to go through. It watches for jams, overheating and slow cooking, it clamps every command so it can never hit the end stop, and it moves around the resting pose instead of mid range so the shoulder is not holding up the whole arm.",
     nowDoes:   "It is built and standing. Both arms work, six joints each, and I can pose them by hand and play it back. It has a printed head with a face I painted. The safety stack runs on everything.",
@@ -56,7 +56,7 @@ const PROJECTS = [
     id:      "breadboard-robot",
     category: "humanoids",
     name:    "Breadboard Robot",
-    tagline: "The Breadboard Robot is a simple full body humanoid.",
+    tagline: "A two-foot bipedal robot I am designing, meant to walk and jump on a low budget.",
     tags:    ["robotics", "actuators", "esp32", "cad"],
     status:  "in progress",
     started: "2026-08",
@@ -64,12 +64,12 @@ const PROJECTS = [
     demo:    "",
     image:   "",
 
-    goal:      "The main purpose of the Breadboard robot was to figure out how to make bipedal robots at a low cost.",
-    firstTry:  "",
-    wentWrong: "",
-    changed:   "",
-    nowDoes:   "",
-    next:      ""
+    goal:      "The main purpose of the Breadboard Robot was to figure out how to make bipedal robots at a low cost.",
+    firstTry:  "I designed a leg in CAD first, rather than buying parts and hoping they fit. The first assembly had the thigh, a motor mount and a motor holder as separate printable pieces, and I revised the whole thing into a V2 the next day. [? what was wrong with V1?]",
+    wentWrong: "[? this one is yours — what has actually gone wrong so far? even on a project still in CAD there is usually something: a part that would not print, a joint that could not take the torque, a motor that turned out too weak or too expensive.]",
+    changed:   "[? what did V2 of the leg change, and why?]",
+    nowDoes:   "It is still at the design stage. The leg assembly is drawn and revised to V2, and I have worked out the actuators: RobStride RS00 quasi-direct-drive joint modules, 5 N·m rated and 14 N·m peak, 310 g each, about 85 dollars. Eight of them, driven over CAN from an ESP32. No hobby servos — they have no real position feedback and would not hold a leg up.",
+    next:      "[? what is the next physical step — print the leg, order one actuator and test it, something else?]"
   },
 
   {
@@ -92,18 +92,18 @@ const PROJECTS = [
 
     /* --- the six headings. this is the actual writing. --- */
     goal:      "I was trying to develop Geedo, an affordable consumer pet robot designed to transition from a personal DIY project into a commercial product.",   // 1. What I was trying to do
-    firstTry:  "I tried making a prototype of it with consumer off the shelf parts, but I realized that if I wanted to make this a product i would have to make custom parts.",   // 2. What I tried first
-    wentWrong: "The first thing that wasted money was the first version of my PCB design, which had missing traces and I did not account that some parts I could not solder.",   // 3. What went wrong      <-- the important one. don't tidy it.
+    firstTry:  "I tried making a prototype of it with consumer off-the-shelf parts, but I realised that if I wanted to make this a product I would have to make custom parts.",   // 2. What I tried first
+    wentWrong: "The first thing that wasted money was the first version of my PCB design, which had missing traces, and I did not account for the fact that there were some parts I could not solder.",   // 3. What went wrong      <-- the important one. don't tidy it.
     changed:   "I spent weeks refining and testing the new design of my PCB to not only work but also have a buzzer, more stable power, and more.",   // 4. What I changed
-    nowDoes:   "It now works perfectly and so far i have not found any flaws with it.",   // 5. What it does now
-    next:      "I would fix that the issue that when you plug a USB-c in without  the battery the board is stuck in a reboot loop and can only be turned on with a battery."    // 6. What I would do next
+    nowDoes:   "It now works, and so far the only flaw I have found is the USB-C one below.",   // 5. What it does now
+    next:      "I would fix the issue where, if you plug USB-C in without the battery, the board gets stuck in a reboot loop and can only be turned on with a battery."    // 6. What I would do next
   },
 
   {
     id:      "led-mask",
     category: "more",
     name:    "LED Mask",
-    tagline: "",
+    tagline: "An LED mask I made for Halloween, with a face that animates across 256 LEDs.",
     tags:    ["leds", "esp32", "wearable", "animation"],
     status:  "built",
     started: "2026-10",
@@ -111,19 +111,19 @@ const PROJECTS = [
     demo:    "",
     image:   "",
 
-    goal:      "",
-    firstTry:  "",
-    wentWrong: "",
-    changed:   "",
-    nowDoes:   "",
-    next:      ""
+    goal:      "I wanted a Halloween costume with a face that actually moves, instead of a fixed mask. The plan was an 8x32 LED panel worn across my mouth, running animations I drew myself. [? why a mask rather than something else?]",
+    firstTry:  "Before touching any hardware I built a simulator that runs in a browser, so I could design animations on my laptop and see them straight away instead of reflashing a board every time I changed a pixel.\n\nThen I started on real hardware with an ESP32, and wrote small sketches first: one to check the panel lit up at all, one to check the colours were in the order I thought, and one to get a face on it.",
+    wentWrong: "I moved the project onto a spare ESP8266 and the panel started freezing mid-animation. It turned out FastLED has to write the whole frame to the LEDs in one uninterrupted go, and on an ESP8266 the WiFi stack interrupts it, so frames get dropped and the panel locks up. [? how long did that take to work out?]\n\nThe other problem was physical. It ran fine on jumper wires on the bench and kept cutting out once it was on the mask, because a costume gets moved around and jumper wires do not stay put.",
+    changed:   "For the freezing, I set FASTLED_ALLOW_INTERRUPTS to 0 so nothing can interrupt a frame while it is being written.\n\nFor the wiring, I soldered it instead of using jumpers, and powered the board from the panel's own 5V through VIN rather than running a second supply.\n\nThe firmware is written so the same code runs on an Arduino Mega, an ESP32 or an ESP8266 without changing anything except which pins it uses — so I could test on whatever board was on the desk. Every animation is a setup() and a step() with the same names as the simulator, so anything I design in the browser ports straight over.",
+    nowDoes:   "It runs about fifteen animations on a 256-LED panel: a cartoon face, a glitchy version of it, eyes in the dark, haunted static, VHS tracking, SYSTEM ERROR, no signal, blood, candles, a storm, a night sky and some scrolling text.\n\nOne button cycles to the next animation and the other pokes the face, which makes it react. It runs off a USB power bank, and I designed the mount for it in OpenSCAD.",
+    next:      "[? what would you change for next Halloween?]"
   },
 
   {
     id:      "void",
     category: "more",
     name:    "VOID",
-    tagline: "A handheld games console I built that reflashes itself to swap between 13 games.",
+    tagline: "A handheld games console I built that prevents my friends from becoming bored.",
     tags:    ["esp32", "arduino", "embedded", "game dev"],
     status:  "built",
     started: "2026-01",
@@ -131,8 +131,8 @@ const PROJECTS = [
     demo:    "",
     image:   "",
 
-    goal:      "I wanted a handheld console I could load lots of different games onto from a menu, like a tiny Game Boy. [? what made you want to build the console instead of just making one game?]",
-    firstTry:  "The first version was a single sketch with the menu and three games all compiled into it: ZombieNights, TowerDefense and StickmanQuest. That works fine for three games. [? did you hit the flash limit, or did you see it coming? what made you change approach?]",
+    goal:      "I wanted a handheld console I could load lots of different games onto from a menu, like a modern Game Boy. I originally built this project because I was talking to my friend one day and he said he was quite bored when he was at a restaurant or an airport. Then my brain immediately popped to the thought that I could build a game console!",
+    firstTry:  "The first version was a single sketch with the menu and three games all compiled into it: ZombieNights, TowerDefense and StickmanQuest. I wanted more games, so I tried to add a few more, but I soon stumbled upon a major issue. The ESP32 that I was using did not have enough storage to store all the games. After realizing this I added a SD card holder and connected it to the ESP32. After adding the SD card the games ran smoothly and after looking at how many games it could store, I was astounded, it could hold up to 8000 games.",
     wentWrong: "An ESP32 only runs one program. Everything has to be compiled into one binary, and the flash fills up fast, so a menu that just calls into a few built-in games does not scale past a handful.\n\nThe second thing was my own fault. While building the first batch of games I saved each one as a file called CODE inside its own folder, so the folder was the name and the file wasn't. That was fine on my computer. The moment I uploaded them somewhere that only looks at filenames, they all collided and overwrote each other, and I lost games that way. I had two files called CODE and code, plus ones called 404, FPS and RACING with no extension at all.",
     changed:   "I stopped treating the firmware as fixed and started treating it as data.\n\nEvery game now compiles to its own .bin file that lives on the SD card in a /games folder. The launcher reads the card, lists whatever .bin files it finds, and when you pick one it uses Update.begin with U_FLASH to overwrite the ESP32's own program with that game's binary, then calls ESP.restart. The console boots straight into the game. To get back, every game includes a header I wrote called VOID_Return.h, which checks the button the instant it boots and, if you are holding it, reads launcher.bin back off the SD card and reflashes to the launcher.\n\nI made the header deliberately easy to bolt on: copy one file into the game's folder, add one #include, and call voidReturnCheck() as the first line of setup(). The game's own code never has to change. There's also an _ADD_NEW_GAMES_HERE folder with the header and instructions already in it, so adding a game later is copy-paste.\n\nAnd I renamed everything properly.",
     nowDoes:   "There are 13 games on it plus the launcher: Forest Survivor, Cyber Void FPS, Soccer Championship, Tower Defense, Tower Defense 3D, Beach Resort, Kart Racing, Space Station, Project 404, Stickman Clash, Stickman Arena 3D, Pilfering Pirates and Nuke Wars. Several of them are 3D, running on a microcontroller.\n\nThe hardware is an ESP32-S3 with an ILI9341 screen, a joystick, one button and an SD card module. You pick a game from the menu, it flashes and boots in a few seconds, and holding the button while it restarts takes you back to the menu.",
