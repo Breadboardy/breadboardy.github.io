@@ -57,7 +57,12 @@ const PROJECTS = [
     started: "2024-10",
     repo:    "",
     demo:    "",
-    image:   "",
+    image:   "img/impact-lit.jpg",
+    photos:  [
+      ["img/impact-lit.jpg", "Playing"],
+      ["img/impact-angle.jpg", "The matrix and the knob"],
+      ["img/impact-close.jpg", "Close up"]
+    ],
 
     goal:      "I wanted to build an actual arcade game out of parts rather than write one on a screen — something with a real knob you turn and a real button you press. [? where did the name Impact come from?]",
     firstTry:  "One 8x8 MAX7219 LED matrix for the screen, driven with the LedControl library. A potentiometer on A0 moves the paddle, a button launches the ball, and there is an RGB LED next to it for status.\n\nThe ball has an x and a y direction and flips one of them whenever it hits a wall. You get three lives.",
@@ -155,10 +160,11 @@ const PROJECTS = [
     repo:    "NA",                          // github link, or leave ""
     demo:    "NA",                          // video link, or leave ""
     image:   "img/geedo-face.jpg",        // the one used on the card + at the top of the page
-    photos:  [                            // more photos, shown as a strip. caption each one.
-      ["img/geedo-face.jpg",   "Screen on"],
-      ["img/geedo-front.jpg",  "The printed case"],
-      ["img/geedo-inside.jpg", "Board and battery"]
+    photos:  [
+      ["img/geedo-face.jpg", "The face"],
+      ["img/geedo-blink.jpg", "Another expression"],
+      ["img/geedo-open.jpg", "Board and battery"],
+      ["img/geedo-hand.jpg", "In hand"]
     ],
 
     /* --- the six headings. this is the actual writing. --- */
@@ -181,7 +187,11 @@ const PROJECTS = [
     started: "2025-10",
     repo:    "",
     demo:    "",
-    image:   "",
+    image:   "img/ledmask1-face.jpg",
+    photos:  [
+      ["img/ledmask1-face.jpg", "The 2025 mask"],
+      ["img/ledmask1-side.jpg", "From the side"]
+    ],
 
     goal:      "I wanted a Halloween costume with a face that moved instead of a fixed mask. [? what gave you the idea?]",
     firstTry:  "I chained four MAX7219 8x8 dot-matrix modules together to make one 32x8 display, driven off an Arduino with the LedControl library. Monochrome red, one colour, no brightness per pixel beyond the module's global setting.",
@@ -202,7 +212,12 @@ const PROJECTS = [
     started: "2026-01",
     repo:    "",
     demo:    "",
-    image:   "",
+    image:   "img/void-front.jpg",
+    photos:  [
+      ["img/void-front.jpg", "The console"],
+      ["img/void-scale.jpg", "Next to a controller"],
+      ["img/void-shell.jpg", "The printed shell"]
+    ],
 
     goal:      "I wanted a handheld console I could load lots of different games onto from a menu, like a modern Game Boy. I originally built this project because I was talking to my friend one day and he said he was quite bored when he was at a restaurant or an airport. Then my brain immediately popped to the thought that I could build a game console!",
     firstTry:  "The first version was a single sketch with the menu and three games all compiled into it: ZombieNights, TowerDefense and StickmanQuest. I wanted more games, so I tried to add a few more, but I soon stumbled upon a major issue. The ESP32 that I was using did not have enough storage to store all the games. After realizing this I added a SD card holder and connected it to the ESP32. After adding the SD card the games ran smoothly and after looking at how many games it could store, I was astounded, it could hold up to 8000 games.",
@@ -223,7 +238,12 @@ const PROJECTS = [
     started: "2026-10",
     repo:    "",
     demo:    "",
-    image:   "",
+    image:   "img/ledmask2-lit.jpg",
+    photos:  [
+      ["img/ledmask2-lit.jpg", "Lit up"],
+      ["img/ledmask2-colour.jpg", "Another animation"],
+      ["img/ledmask2-back.jpg", "The mount and wiring"]
+    ],
 
     goal:      "I wanted to redo my LED mask properly. The first one was four monochrome dot-matrix modules; this time I wanted full colour, real animations, and a face that reacts. [? what specifically bugged you about v1?]",
     firstTry:  "Before touching any hardware I built a simulator that runs in a browser, so I could design animations on my laptop and see them straight away instead of reflashing a board every time I changed a pixel.\n\nThen I started on real hardware with an ESP32, and wrote small sketches first: one to check the panel lit up at all, one to check the colours were in the order I thought, and one to get a face on it.",
