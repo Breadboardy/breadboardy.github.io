@@ -75,16 +75,18 @@ function renderFoot() {
       <div class="col">
         <h4>Pages</h4>
         <a href="index.html">Projects</a>
-        <a href="log.html">Build log</a>
-        <a href="talks.html">Talks &amp; demos</a>
+        ${(typeof LOG !== 'undefined' && LOG.some(e => e.body && e.body.trim()))
+            ? '<a href="log.html">Build log</a>' : ''}
+        ${(typeof TALKS !== 'undefined' && TALKS.some(t => t.url && t.url.trim()))
+            ? '<a href="talks.html">Talks &amp; demos</a>' : ''}
         <a href="about.html">About</a>
       </div>
       <div class="col">
         <h4>Elsewhere</h4>
-        ${link(SITE.github, 'GitHub') || '<span>GitHub — soon</span>'}
-        ${link(SITE.linkedin, 'LinkedIn') || ''}
-        ${link(SITE.youtube, 'Video') || '<span>Video — soon</span>'}
-        ${SITE.email ? `<a href="mailto:${esc(SITE.email)}">Email</a>` : '<span>Email — soon</span>'}
+        ${link(SITE.github, 'GitHub')}
+        ${link(SITE.linkedin, 'LinkedIn')}
+        ${link(SITE.youtube, 'Video')}
+        ${SITE.email ? `<a href="mailto:${esc(SITE.email)}">Email</a>` : ''}
       </div>
       <div class="sig">
         ${built} project${built === 1 ? '' : 's'} built · ${LOG.filter(e => e.body).length} log entries<br>

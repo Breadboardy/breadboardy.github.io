@@ -391,7 +391,7 @@ const SITE = {
      Age, homeschooled through Hickman, how you got into building,
      what you're into now, what you want from a school. Write a lot. */
   about:    "",
-  email:    "callumconradtaylor@gmail.com",
+  email:    "",
   github:   "https://github.com/Breadboardy",
   linkedin: "https://www.linkedin.com/in/callum-taylor-5767b7438/",
   youtube:  "https://www.youtube.com/channel/UCbOmJHALy3TuAudZlwAlPdQ/",
