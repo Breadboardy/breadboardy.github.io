@@ -59,9 +59,22 @@ const PROJECTS = [
     demo:    "",
     image:   "img/impact-lit.jpg",
     photos:  [
-      ["img/impact-lit.jpg", "Playing"],
-      ["img/impact-angle.jpg", "The matrix and the knob"],
-      ["img/impact-close.jpg", "Close up"]
+      ["img/impact-lit.jpg", ""],
+      ["img/impact-angle.jpg", ""],
+      ["img/impact-close.jpg", ""],
+      ["img/g_impact_DSC_2106.jpg", ""],
+      ["img/g_impact_DSC_2107.jpg", ""],
+      ["img/g_impact_DSC_2109.jpg", ""],
+      ["img/g_impact_DSC_2110.jpg", ""],
+      ["img/g_impact_DSC_2111.jpg", ""],
+      ["img/g_impact_DSC_2112.jpg", ""],
+      ["img/g_impact_DSC_2113.jpg", ""],
+      ["img/g_impact_DSC_2114.jpg", ""],
+      ["img/g_impact_DSC_2115.jpg", ""],
+      ["img/g_impact_DSC_2116.jpg", ""],
+      ["img/g_impact_DSC_2117.jpg", ""],
+      ["img/g_impact_IMG_3538.jpg", ""],
+      ["img/g_impact_phone1.jpg", ""]
     ],
 
     goal:      "I wanted to build an actual arcade game out of parts rather than write one on a screen — something with a real knob you turn and a real button you press. [? where did the name Impact come from?]",
@@ -161,10 +174,34 @@ const PROJECTS = [
     demo:    "NA",                          // video link, or leave ""
     image:   "img/geedo-face.jpg",        // the one used on the card + at the top of the page
     photos:  [
-      ["img/geedo-face.jpg", "The face"],
-      ["img/geedo-blink.jpg", "Another expression"],
-      ["img/geedo-open.jpg", "Board and battery"],
-      ["img/geedo-hand.jpg", "In hand"]
+      ["img/geedo-face.jpg", ""],
+      ["img/geedo-blink.jpg", ""],
+      ["img/geedo-open.jpg", ""],
+      ["img/geedo-hand.jpg", ""],
+      ["img/g_geedo_DSC_2118.jpg", ""],
+      ["img/g_geedo_DSC_2119.jpg", ""],
+      ["img/g_geedo_DSC_2120.jpg", ""],
+      ["img/g_geedo_DSC_2121.jpg", ""],
+      ["img/g_geedo_DSC_2122.jpg", ""],
+      ["img/g_geedo_DSC_2123.jpg", ""],
+      ["img/g_geedo_DSC_2124.jpg", ""],
+      ["img/g_geedo_DSC_2125.jpg", ""],
+      ["img/g_geedo_DSC_2126.jpg", ""],
+      ["img/g_geedo_DSC_2127.jpg", ""],
+      ["img/g_geedo_DSC_2128.jpg", ""],
+      ["img/g_geedo_DSC_2129.jpg", ""],
+      ["img/g_geedo_DSC_2130.jpg", ""],
+      ["img/g_geedo_DSC_2131.jpg", ""],
+      ["img/g_geedo_DSC_2132.jpg", ""],
+      ["img/g_geedo_DSC_2133.jpg", ""],
+      ["img/g_geedo_DSC_2134.jpg", ""],
+      ["img/g_geedo_DSC_2135.jpg", ""],
+      ["img/g_geedo_DSC_2136.jpg", ""],
+      ["img/g_geedo_DSC_2137.jpg", ""],
+      ["img/g_geedo_DSC_2138.jpg", ""],
+      ["img/g_geedo_DSC_2139.jpg", ""],
+      ["img/g_geedo_DSC_2140.jpg", ""],
+      ["img/g_geedo_DSC_2141.jpg", ""]
     ],
 
     /* --- the six headings. this is the actual writing. --- */
@@ -189,8 +226,17 @@ const PROJECTS = [
     demo:    "",
     image:   "img/ledmask1-face.jpg",
     photos:  [
-      ["img/ledmask1-face.jpg", "The 2025 mask"],
-      ["img/ledmask1-side.jpg", "From the side"]
+      ["img/ledmask1-face.jpg", ""],
+      ["img/ledmask1-side.jpg", ""],
+      ["img/g_ledmask1_DSC_2097.jpg", ""],
+      ["img/g_ledmask1_DSC_2098.jpg", ""],
+      ["img/g_ledmask1_DSC_2099.jpg", ""],
+      ["img/g_ledmask1_bench.jpg", ""],
+      ["img/g_ledmask1_worn1.jpg", ""],
+      ["img/g_ledmask1_worn2.jpg", ""],
+      ["img/g_ledmask1_worn3.jpg", ""],
+      ["img/g_ledmask1_worn4.jpg", ""],
+      ["img/g_ledmask1_worn5.jpg", ""]
     ],
 
     goal:      "I wanted a Halloween costume with a face that moved instead of a fixed mask. [? what gave you the idea?]",
@@ -214,9 +260,17 @@ const PROJECTS = [
     demo:    "",
     image:   "img/void-front.jpg",
     photos:  [
-      ["img/void-front.jpg", "The console"],
-      ["img/void-scale.jpg", "Next to a controller"],
-      ["img/void-shell.jpg", "The printed shell"]
+      ["img/void-front.jpg", ""],
+      ["img/void-scale.jpg", ""],
+      ["img/void-shell.jpg", ""],
+      ["img/g_void_DSC_2100.jpg", ""],
+      ["img/g_void_DSC_2101.jpg", ""],
+      ["img/g_void_DSC_2102.jpg", ""],
+      ["img/g_void_DSC_2103.jpg", ""],
+      ["img/g_void_DSC_2104.jpg", ""],
+      ["img/g_void_DSC_2105.jpg", ""],
+      ["img/g_void_phone1.jpg", ""],
+      ["img/g_void_phone2.jpg", ""]
     ],
 
     goal:      "I wanted a handheld console I could load lots of different games onto from a menu, like a modern Game Boy. I originally built this project because I was talking to my friend one day and he said he was quite bored when he was at a restaurant or an airport. Then my brain immediately popped to the thought that I could build a game console!",
@@ -240,9 +294,26 @@ const PROJECTS = [
     demo:    "",
     image:   "img/ledmask2-lit.jpg",
     photos:  [
-      ["img/ledmask2-lit.jpg", "Lit up"],
-      ["img/ledmask2-colour.jpg", "Another animation"],
-      ["img/ledmask2-back.jpg", "The mount and wiring"]
+      ["img/ledmask2-lit.jpg", ""],
+      ["img/ledmask2-colour.jpg", ""],
+      ["img/ledmask2-back.jpg", ""],
+      ["img/g_ledmask2_DSC_2082.jpg", ""],
+      ["img/g_ledmask2_DSC_2083.jpg", ""],
+      ["img/g_ledmask2_DSC_2084.jpg", ""],
+      ["img/g_ledmask2_DSC_2085.jpg", ""],
+      ["img/g_ledmask2_DSC_2086.jpg", ""],
+      ["img/g_ledmask2_DSC_2087.jpg", ""],
+      ["img/g_ledmask2_DSC_2088.jpg", ""],
+      ["img/g_ledmask2_DSC_2089.jpg", ""],
+      ["img/g_ledmask2_DSC_2090.jpg", ""],
+      ["img/g_ledmask2_DSC_2091.jpg", ""],
+      ["img/g_ledmask2_DSC_2092.jpg", ""],
+      ["img/g_ledmask2_DSC_2093.jpg", ""],
+      ["img/g_ledmask2_DSC_2094.jpg", ""],
+      ["img/g_ledmask2_DSC_2095.jpg", ""],
+      ["img/g_ledmask2_DSC_2096.jpg", ""],
+      ["img/g_ledmask2_worn1.jpg", ""],
+      ["img/g_ledmask2_worn2.jpg", ""]
     ],
 
     goal:      "I wanted to redo my LED mask properly. The first one was four monochrome dot-matrix modules; this time I wanted full colour, real animations, and a face that reacts. [? what specifically bugged you about v1?]",
