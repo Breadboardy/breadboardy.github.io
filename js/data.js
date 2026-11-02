@@ -73,7 +73,6 @@ const PROJECTS = [
       ["img/g_impact_DSC_2115.jpg", ""],
       ["img/g_impact_DSC_2116.jpg", ""],
       ["img/g_impact_DSC_2117.jpg", ""],
-      ["img/g_impact_IMG_3538.jpg", ""],
       ["img/g_impact_phone1.jpg", ""]
     ],
 

@@ -257,6 +257,22 @@ const STEPS = [
   ['next',      'What I would do next',     false],
 ];
 
+/* gallery tiles default to 4:3. if most of a project's photos are portrait
+   (e.g. a device standing upright), switch the tiles to 3:4 so nothing is cropped off */
+function fitGallery() {
+  const g = document.querySelector('.shots');
+  if (!g) return;
+  const imgs = [...g.querySelectorAll('img')];
+  const decide = () => {
+    const known = imgs.filter(i => i.naturalWidth);
+    if (known.length < Math.min(3, imgs.length)) return;
+    const tall = known.filter(i => i.naturalHeight > i.naturalWidth).length;
+    g.classList.toggle('tall', tall > known.length / 2);
+  };
+  imgs.forEach(i => { i.loading = 'eager'; i.complete ? decide() : i.addEventListener('load', decide, { once: true }); });
+  decide();
+}
+
 function renderProject() {
   const id = new URLSearchParams(location.search).get('id');
   const i  = PROJECTS.findIndex(x => x.id === id);

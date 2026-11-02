@@ -669,3 +669,8 @@ html[data-theme="dark"] .pcard.award-card .pcard-head h2 { color: #e8c879; }
   .card.sm b { font-size: 18px; }
   .card.sm s { flex-basis: 100%; }
 }
+
+/* a gallery of mostly-portrait photos gets portrait tiles, so an upright
+   device is not cropped into a landscape box */
+.shots.tall { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.shots.tall img { aspect-ratio: 3 / 4; }
