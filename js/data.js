@@ -49,7 +49,7 @@ const PROJECTS = [
   {
     id:      "impact",
     category: "more",
-    size:     "small",   // large | medium | small — how much room it gets
+    size:     "medium",   // large | medium | small — how much room it gets
     name:    "Impact",
     tagline: "A Breakout-style game on a single 8x8 LED grid, with a knob for the paddle.",
     tags:    ["arduino", "game", "electronics"],
@@ -149,7 +149,10 @@ const PROJECTS = [
     started: "2026-08",
     repo:    "",
     demo:    "",
-    image:   "",
+    image:   "img/breadboard-leg.jpg",
+    photos:  [
+      ["img/breadboard-leg.jpg", "Leg V2, rendered from the CAD"]
+    ],
 
     goal:      "The main purpose of the Breadboard Robot was to figure out how to make bipedal robots at a low cost.",
     firstTry:  "I designed a leg in CAD first, rather than buying parts and hoping they fit. The first assembly had the thigh, a motor mount and a motor holder as separate printable pieces, and I revised the whole thing into a V2 the next day. [? what was wrong with V1?]",
@@ -215,7 +218,7 @@ const PROJECTS = [
   {
     id:      "led-mask",
     category: "more",
-    size:     "small",   // large | medium | small — how much room it gets
+    size:     "medium",   // large | medium | small — how much room it gets
     name:    "LED Mask",
     tagline: "My first LED mask, built on four chained dot-matrix modules.",
     tags:    ["leds", "esp32", "wearable", "animation"],
@@ -287,7 +290,7 @@ const PROJECTS = [
     name:    "LED Mask v2",
     tagline: "An LED mask I made for Halloween, with a face that animates across 256 LEDs.",
     tags:    ["leds", "esp32", "wearable"],
-    status:  "in progress",
+    status:  "built",
     started: "2026-10",
     repo:    "",
     demo:    "",

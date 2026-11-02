@@ -162,12 +162,25 @@ function renderHome() {
         <span class="count">${items.length} project${items.length === 1 ? '' : 's'}</span>
       </div>
       ${cat.blurb ? `<p class="cat-blurb">${esc(cat.blurb)}</p>` : ''}
-      <div class="grid">${items.map(card).join('')}</div>`;
+      <div class="grid">${(() => {
+        /* a lone medium in a two-column grid leaves half a row empty, so the
+           odd one out spans the row in a compact side-by-side layout instead */
+        const mids = items.filter(p => (p.size || 'medium') === 'medium');
+        const wideId = mids.length % 2 === 1 ? mids[mids.length - 1].id : null;
+        return items.map(p => card(p, p.id === wideId)).join('');
+      })()}</div>`;
   }).join('');
 
+  /* the breadboard guy sits on top of the first big project photo */
+  const lead = host.querySelector('.card.lg .art');
+  if (lead && !lead.querySelector('.perch')) {
+    lead.closest('.card').classList.add('has-perch');
+    lead.insertAdjacentHTML('beforeend',
+      '<img class="perch" src="img/breadboard-guy.png" alt="" aria-hidden="true">');
+  }
 }
 
-function card(p) {
+function card(p, wide) {
   const sub  = p.tagline || (p.tags || []).slice(0, 3).join(' · ');
   const size = p.size || 'medium';
   const href = `project.html?id=${encodeURIComponent(p.id)}`;
@@ -197,9 +210,9 @@ function card(p) {
       </a>`;
   }
 
-  /* medium — the ordinary card */
+  /* medium — the ordinary card (or its wide variant when it would be alone in a row) */
   return `
-    <a class="card md" href="${href}">
+    <a class="card md${wide ? ' wide' : ''}" href="${href}">
       ${art(p)}
       <div class="card-text">
         <b>${esc(p.name)}</b>

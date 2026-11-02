@@ -674,3 +674,32 @@ html[data-theme="dark"] .pcard.award-card .pcard-head h2 { color: #e8c879; }
    device is not cropped into a landscape box */
 .shots.tall { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 .shots.tall img { aspect-ratio: 3 / 4; }
+
+/* ============================================================
+   polish: wide medium, perch on the lead card, portrait crops
+   ============================================================ */
+
+/* a medium that would sit alone in its row spans it, image beside text */
+.card.md.wide {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+  gap: 22px; align-items: start;
+}
+.card.md.wide .art { margin-top: 16px; }
+.card.md.wide .card-text { padding-top: 16px; }
+.card.md.wide .card-text b { font-size: 22px; }
+.card.md.wide .card-text s { max-width: 44ch; }
+
+/* the breadboard guy sits on the top edge of the first big photo */
+.card.lg.has-perch { overflow: visible; margin-top: 64px; }
+.card.lg.has-perch .art { position: relative; overflow: visible; }
+.card.lg.has-perch .perch { top: -76px; right: 18px; }
+
+/* portrait photos in landscape card boxes: favour the top, where the screen or face is */
+.art.has-img { background-position: center 32%; }
+
+@media (max-width: 680px) {
+  .card.md.wide { grid-template-columns: 1fr; gap: 0; }
+  .card.lg.has-perch { margin-top: 48px; }
+  .card.lg.has-perch .perch { top: -50px; }
+}
