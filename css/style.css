@@ -772,3 +772,6 @@ html[data-theme="dark"] .pcard.award-card .pcard-head h2 { color: #e8c879; }
 
 /* photos lead the overview tab */
 .pane-overview .shots { margin: 22px 0 6px; }
+
+/* home page ends on Recognition (no footer there) — leave room below it */
+#impact { padding-bottom: 72px; }

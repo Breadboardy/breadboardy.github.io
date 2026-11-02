@@ -88,10 +88,6 @@ function renderFoot() {
         ${link(SITE.youtube, 'Video')}
         ${SITE.email ? `<a href="mailto:${esc(SITE.email)}">Email</a>` : ''}
       </div>
-      <div class="sig">
-        ${built} project${built === 1 ? '' : 's'} built · ${LOG.filter(e => e.body).length} log entries<br>
-        Hand-written HTML. No frameworks.
-      </div>
     </div>`;
 }
 
@@ -114,7 +110,6 @@ function renderHome() {
   const hero = document.getElementById('hero');
   if (hero) hero.innerHTML = `
     <div class="who">
-      ${laurel}
       <h1>Hi, I’m ${esc(SITE.name || 'Callum')}.</h1>
       <p class="role">${SITE.role ? esc(SITE.role)
         : ''}</p>

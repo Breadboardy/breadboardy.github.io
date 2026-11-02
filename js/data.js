@@ -605,7 +605,7 @@ const SITE = {
   about:    "",
   email:    "",
   github:   "https://github.com/Breadboardy",
-  linkedin: "https://www.linkedin.com/in/callum-taylor-5767b7438/",
+  linkedin: "",
   youtube:  "https://www.youtube.com/channel/UCbOmJHALy3TuAudZlwAlPdQ/",
   url:      ""          // your domain once you have one, e.g. "https://callum.dev"
 };
