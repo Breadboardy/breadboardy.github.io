@@ -299,8 +299,9 @@ function renderProject() {
   document.title = `${p.name} — ${SITE.name || 'Callum'}`;
 
   const btns = [];
-  if (p.repo) btns.push(`<a class="btn" href="${esc(p.repo)}">Code →</a>`);
-  if (p.demo) btns.push(`<a class="btn" href="${esc(p.demo)}">Demo video →</a>`);
+  const isLink = v => /^https?:\/\//.test(v || '');   // "NA" or "" means no button
+  if (isLink(p.repo)) btns.push(`<a class="btn" href="${esc(p.repo)}">Code →</a>`);
+  if (isLink(p.demo)) btns.push(`<a class="btn" href="${esc(p.demo)}">Demo video →</a>`);
 
   el.innerHTML = `
     <a class="back" href="index.html">← all projects</a>
