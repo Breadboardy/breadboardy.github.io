@@ -37,14 +37,19 @@
 
   const STEPS = [
     ['tagline',   'One line: what is it?'],
-    ['goal',      '1. What I was trying to do'],
-    ['firstTry',  '2. What I tried first'],
-    ['wentWrong', '3. What went wrong'],
-    ['changed',   '4. What I changed'],
-    ['nowDoes',   '5. What it does now'],
-    ['next',      '6. What I would do next'],
+    ['goal',      'What I was trying to do'],
+    ['firstTry',  'How I started'],
+    ['nowDoes',   'What it does now'],
+    ['next',      'What I would do next'],
     ['repo',      'Code link'],
     ['demo',      'Demo video link'],
+  ];
+  const PROSE = ['goal', 'firstTry', 'nowDoes', 'next'];
+  const PROBLEM_FIELDS = [
+    ['title', 'Problem — a short title',  false],
+    ['what',  'What happened',             true ],
+    ['why',   'Why (optional)',            true ],
+    ['fix',   'How I fixed it',            true ],
   ];
 
   const dirty = new Map();            // "TARGET|key|field" -> {spec, value}
@@ -70,13 +75,17 @@
     const src = { SITE, PROFILE, PROJECTS, LOG, TALKS, AWARDS, EDUCATION, LANGUAGES }[spec.target];
     if (!Array.isArray(src)) return src[spec.field] || '';
     const item = spec.key != null ? src.find(x => x.id === spec.key) : src[spec.index || 0];
+    if (spec.sub) {
+      const sub = ((item && item[spec.sub]) || [])[spec.subIndex || 0];
+      return (sub && sub[spec.field]) || '';
+    }
     return (item && item[spec.field]) || '';
   };
 
   /* ---------- one field ---------- */
 
   function fieldRow(spec, label, hint, big, tall) {
-    const key = `${spec.target}|${spec.key ?? spec.index ?? ''}|${spec.field}`;
+    const key = `${spec.target}|${spec.key ?? spec.index ?? ''}|${spec.sub ? spec.sub + '.' + spec.subIndex + '.' : ''}${spec.field}`;
     const val = readValue(spec);
     const wrap = document.createElement('label');
     wrap.className = 'ed-field';
@@ -148,13 +157,29 @@
 
     /* projects */
     PROJECTS.forEach(p => {
-      const done = STEPS.slice(1, 7).filter(([k]) => p[k]).length;
-      const g = group(p.name, `${done}/6 written`);
+      const probs = p.problems || [];
+      const done  = PROSE.filter(k => p[k]).length;
+      const g = group(p.name, `${done}/${PROSE.length} written · ${probs.length} problem${probs.length === 1 ? '' : 's'}`);
       g.classList.add('ed-collapsed');
       g.querySelector('h3').onclick = () => toggleGroup(g);
+
+      const sub = t => { const d = document.createElement('div'); d.className = 'ed-sub'; d.textContent = t; return d; };
+      g.appendChild(sub('Overview — the quick version'));
       [['name', 'Name'], ...STEPS].forEach(([field, label]) =>
-        g.appendChild(fieldRow({ target: 'PROJECTS', key: p.id, field }, label, '',
-                               ['goal','firstTry','wentWrong','changed','nowDoes','next'].includes(field))));
+        g.appendChild(fieldRow({ target: 'PROJECTS', key: p.id, field }, label, '', PROSE.includes(field))));
+
+      probs.forEach((_, i) => {
+        g.appendChild(sub(`Problem ${i + 1}`));
+        PROBLEM_FIELDS.forEach(([field, label, big]) =>
+          g.appendChild(fieldRow({ target: 'PROJECTS', key: p.id, sub: 'problems', subIndex: i, field },
+                                 label, field === 'what' ? 'as much as you like — blank lines make paragraphs' : '', big, field === 'what')));
+      });
+
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ed-add';
+      b.textContent = '+ new problem';
+      b.onclick = () => add('problem', p.id);
+      g.appendChild(b);
       body.appendChild(g);
     });
 
@@ -224,10 +249,10 @@
     }
   }
 
-  async function add(kind) {
+  async function add(kind, key) {
     try {
       if (dirty.size) await save();
-      await post('/api/add', { kind });
+      await post('/api/add', key ? { kind, key } : { kind });
       location.reload();
     } catch (e) {
       statusEl.textContent = 'failed: ' + e.message;

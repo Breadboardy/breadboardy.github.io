@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Reports what's still blank in js/data.js. Run it with ./check.sh"""
-import re, pathlib, sys
+import re, pathlib, sys, json
 
 SRC = pathlib.Path(__file__).parent / "js" / "data.js"
 DRAFTS_FILE = pathlib.Path(__file__).parent / "drafts.json"
@@ -55,28 +55,62 @@ todo = 0
 draft_total = [0]
 
 # --- projects ---
-projects = block(src, "const PROJECTS = [", "\n];")
-chunks = re.split(r'\n\s*\{', projects)[1:]
+# the same scanner the editor uses, because problems are objects nested inside
+# each project and a regex split would cut a project into pieces at every one
+import importlib.util as _iu
+_spec = _iu.spec_from_file_location("ed", str(pathlib.Path(__file__).parent / "edit.py"))
+_ed = _iu.module_from_spec(_spec); _spec.loader.exec_module(_ed)
+
+def _val(a, b, name):
+    sp = _ed.object_strings(src, a, b).get(name)
+    return re.sub(r"\[\?[^\]]*\]", "", json.loads(src[sp[0]:sp[1]])).strip() if sp else ""
+
+def _raw(a, b, name):
+    sp = _ed.object_strings(src, a, b).get(name)
+    return json.loads(src[sp[0]:sp[1]]).strip() if sp else ""
+
+OVERVIEW = [("goal", "what you were trying to do"), ("firstTry", "how you started"),
+            ("nowDoes", "what it does now"), ("next", "what you'd do next")]
+
+_s, _e = _ed.find_body(src, "const PROJECTS = [")
 print(f"\n{B}PROJECTS{N}")
-for c in chunks:
-    name = field(c, "name") or field(c, "id")
-    done = sum(1 for k, _ in STEPS if written(c, k))
-    todo += 6 - done
-    pid = field(c, "id")
-    mine = sum(1 for k, _ in STEPS
-               if DRAFTS.get(f"PROJECTS|{pid}|{k}", "\x00") == field(c, k))
-    if not done:
-        tag = ""                                   # nothing written yet either way
+for a, b in _ed.array_items(src, _s, _e):
+    pid  = _raw(a, b, "id")
+    name = _raw(a, b, "name") or pid
+    done = sum(1 for k, _ in OVERVIEW if _val(a, b, k))
+
+    probs, mine = [], 0
+    for k, _ in OVERVIEW:
+        if _raw(a, b, k) and DRAFTS.get(f"PROJECTS|{pid}|{k}") == _raw(a, b, k):
+            mine += 1
+    arr = _ed.prop_array(src, a, b, "problems")
+    for i, (pa, pb) in enumerate(_ed.array_items(src, arr[0], arr[1]) if arr else []):
+        t, w, f = _val(pa, pb, "title"), _val(pa, pb, "what"), _val(pa, pb, "fix")
+        probs.append(bool(w and f))
+        for fld in ("title", "what", "why", "fix"):
+            r = _raw(pa, pb, fld)
+            if r and DRAFTS.get(f"PROJECTS|{pid}|problems.{i}.{fld}") == r:
+                mine += 1
+
+    solved = sum(probs)
+    total  = done + solved
+    want   = len(OVERVIEW) + max(1, len(probs))
+    todo  += (len(OVERVIEW) - done) + (len(probs) - solved if probs else 1)
+    draft_total[0] += mine
+    if not total:
+        tag = ""
     elif mine:
         tag = f"  {Y}{mine} still my words{N}"
     else:
         tag = f"  {G}all yours{N}"
-    print(f"  {bar(done, 6)} {name:<18} {D}{done}/6 sections{N}{tag}")
-    draft_total[0] += mine
-    missing = [lbl for k, lbl in STEPS if not written(c, k)]
+    print(f"  {bar(min(total, want), want)} {name:<18} {D}{done}/{len(OVERVIEW)} overview · "
+          f"{solved}/{len(probs)} problem{'' if len(probs) == 1 else 's'} written{N}{tag}")
+    missing = [lbl for k, lbl in OVERVIEW if not _val(a, b, k)]
     if missing:
         print(f"      {D}needs: {', '.join(missing)}{N}")
-    extras = [n for n in ("tagline", "repo", "demo") if not field(c, n)]
+    if probs and solved < len(probs):
+        print(f"      {D}{len(probs) - solved} problem(s) missing what-happened or the fix{N}")
+    extras = [n for n in ("tagline", "repo", "demo") if not _raw(a, b, n)]
     if extras:
         print(f"      {D}no {', '.join(extras)} yet{N}")
 

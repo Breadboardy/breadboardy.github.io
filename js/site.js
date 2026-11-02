@@ -321,27 +321,95 @@ function renderProject() {
     </div>
     ${p.image && !(Array.isArray(p.photos) && p.photos.length) ?
         `<img class="p-hero" src="${esc(p.image)}" alt="${esc(p.name)}">` : ''}
-    ${Array.isArray(p.photos) && p.photos.length ? `
-      <div class="shots">
-        ${p.photos.map(([src, cap]) => `
-          <figure>
-            <img src="${esc(src)}" alt="${esc(cap || p.name)}" loading="lazy">
-            ${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}
-          </figure>`).join('')}
-      </div>` : ''}
-    ${STEPS
-        .map(([key, heading, isKey]) => ({ body: prose(p[key], ''), heading, isKey }))
-        .filter(st => st.body)                       /* nothing written -> no section at all */
-        .map((st, n) => `
-      <section class="step ${st.isKey ? 'key' : ''}">
-        <div class="num">${String(n + 1).padStart(2, '0')}</div>
-        <h2>${st.heading}</h2>
-        ${st.body}
-      </section>`).join('')}
+    ${projectTabs(p)}
     <nav class="p-nav">
       <span>${prev ? `<a href="project.html?id=${encodeURIComponent(prev.id)}">← ${esc(prev.name)}</a>` : ''}</span>
       <span>${next ? `<a href="project.html?id=${encodeURIComponent(next.id)}">${esc(next.name)} →</a>` : ''}</span>
     </nav>`;
+}
+
+
+/* ---------- project tabs: Overview · Problems · Photos ---------- */
+
+const OVERVIEW = [
+  ['goal',     'What I was trying to do'],
+  ['firstTry', 'How I started'],
+  ['nowDoes',  'What it does now'],
+  ['next',     'What I would do next'],
+];
+
+function projectTabs(p) {
+  const overview = OVERVIEW
+    .map(([k, h]) => ({ h, body: prose(p[k], '') }))
+    .filter(x => x.body)
+    .map(x => `<section class="ov"><h2>${x.h}</h2>${x.body}</section>`).join('');
+
+  const probs = (p.problems || [])
+    .map(pr => ({
+      title: stripNotes(pr.title),
+      what:  prose(pr.what, ''), why: prose(pr.why, ''), fix: prose(pr.fix, '')
+    }))
+    .filter(pr => pr.title || pr.what || pr.fix);
+
+  const problems = probs.map((pr, i) => `
+    <article class="prob">
+      <div class="prob-n">${String(i + 1).padStart(2, '0')}</div>
+      <div class="prob-body">
+        ${pr.title ? `<h2>${esc(pr.title)}</h2>` : ''}
+        ${pr.what ? `<div class="part"><h3>What happened</h3>${pr.what}</div>` : ''}
+        ${pr.why  ? `<div class="part"><h3>Why</h3>${pr.why}</div>`            : ''}
+        ${pr.fix  ? `<div class="part fix"><h3>How I fixed it</h3>${pr.fix}</div>` : ''}
+      </div>
+    </article>`).join('');
+
+  const photos = Array.isArray(p.photos) && p.photos.length ? `
+    <div class="shots">${p.photos.map(([src, cap]) => `
+      <figure><img src="${esc(src)}" alt="${esc(cap || p.name)}" loading="lazy">
+      ${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('')}</div>` : '';
+
+  /* photos sit at the top of the overview, so a quick look needs no clicking */
+  const tabs = [
+    ['overview', 'Overview', photos + overview],
+    ['problems', `Problems${probs.length ? ` <i>${probs.length}</i>` : ''}`, problems],
+  ].filter(t => t[2]);
+  if (!tabs.length) return '';
+
+  return `
+    <div class="tabs" role="tablist" aria-label="${esc(p.name)}">
+      ${tabs.map(([id, label], i) => `
+        <button role="tab" id="tab-${id}" aria-controls="pane-${id}"
+                aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${id}">${label}</button>`).join('')}
+    </div>
+    ${tabs.map(([id, , body], i) => `
+      <div class="pane pane-${id}" role="tabpanel" id="pane-${id}" aria-labelledby="tab-${id}"
+           ${i === 0 ? '' : 'hidden'}>${body}</div>`).join('')}`;
+}
+
+/* switch tabs; keep the choice in the URL so #problems can be linked directly */
+function wireTabs() {
+  const list = document.querySelector('.tabs');
+  if (!list) return;
+  const btns = [...list.querySelectorAll('[role="tab"]')];
+  const show = (id, focus) => {
+    const btn = btns.find(b => b.dataset.tab === id) || btns[0];
+    btns.forEach(b => {
+      const on = b === btn;
+      b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1;
+      document.getElementById('pane-' + b.dataset.tab).hidden = !on;
+    });
+    if (focus) btn.focus();
+    const want = btn === btns[0] ? '' : '#' + btn.dataset.tab;
+    if (location.hash !== want) history.replaceState(null, '', location.pathname + location.search + want);
+  };
+  btns.forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
+  list.addEventListener('keydown', e => {
+    const i = btns.indexOf(document.activeElement);
+    if (i < 0) return;
+    const go = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: btns.length - 1 }[e.key];
+    if (go === undefined) return;
+    e.preventDefault(); show(btns[(go + btns.length) % btns.length].dataset.tab, true);
+  });
+  show(location.hash.slice(1));
 }
 
 /* ---------- build log ---------- */

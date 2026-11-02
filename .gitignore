@@ -11,3 +11,6 @@ looks.html
 styles.html
 log.html
 talks.html
+
+# rollback copies from the tabs change — local only
+*.pre-tabs

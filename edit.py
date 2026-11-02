@@ -122,6 +122,40 @@ def object_strings(src, start, end):
     return out
 
 
+def prop_array(src, start, end, name):
+    """Span of the [...] that `name: [` opens directly inside one object."""
+    depth, k = 0, start + 1
+    while k < end:
+        nxt = _skip(src, k)
+        if nxt is not None:
+            k = nxt
+            continue
+        if depth == 0:
+            m = re.match(re.escape(name) + r"\s*:\s*\[", src[k:end])
+            if m and not (src[k-1].isalnum() or src[k-1] == "_"):
+                o = k + m.end() - 1
+                d, j = 0, o
+                while j < end:
+                    nx = _skip(src, j)
+                    if nx is not None:
+                        j = nx
+                        continue
+                    if src[j] == "[":
+                        d += 1
+                    elif src[j] == "]":
+                        d -= 1
+                        if d == 0:
+                            return o, j
+                    j += 1
+                return None
+        if src[k] in "{[":
+            depth += 1
+        elif src[k] in "}]":
+            depth -= 1
+        k += 1
+    return None
+
+
 def js_string(value):
     """Encode a Python string as a double-quoted JS literal on one line."""
     return json.dumps(str(value), ensure_ascii=False)
@@ -159,6 +193,16 @@ def locate(src, spec):
             fields = object_strings(src, a, b)
             idf = fields.get("id")
             if idf and json.loads(src[idf[0]:idf[1]]) == spec["key"]:
+                if spec.get("sub"):                           # e.g. problems[2].fix
+                    arr = prop_array(src, a, b, spec["sub"])
+                    if not arr:
+                        return None
+                    sub_items = array_items(src, arr[0], arr[1])
+                    i = int(spec.get("subIndex", 0))
+                    if i >= len(sub_items):
+                        return None
+                    sa, sb = sub_items[i]
+                    return object_strings(src, sa, sb).get(field)
                 return object_strings(src, a, b).get(field)
         return None
 
@@ -209,8 +253,14 @@ TEMPLATES = {
 
     goal:      "",
     firstTry:  "",
-    wentWrong: "",
-    changed:   "",
+    problems: [
+      {{
+        title: "",
+        what:  "",
+        why:   "",
+        fix:   ""
+      }}
+    ],
     nowDoes:   "",
     next:      ""
   }},
@@ -236,6 +286,30 @@ TEMPLATES = {
 ''',
 }
 WHERE = {"log": "LOG", "project": "PROJECTS", "award": "AWARDS", "talk": "TALKS"}
+
+
+PROBLEM = """      {
+        title: "",
+        what:  "",
+        why:   "",
+        fix:   ""
+      }"""
+
+
+def add_problem(src, key):
+    s, e = find_body(src, "const PROJECTS = [")
+    for a, b in array_items(src, s, e):
+        f = object_strings(src, a, b)
+        if f.get("id") and json.loads(src[f["id"][0]:f["id"][1]]) == key:
+            arr = prop_array(src, a, b, "problems")
+            if not arr:
+                raise KeyError(f"{key} has no problems list")
+            subs = array_items(src, arr[0], arr[1])
+            if subs:
+                at = subs[-1][1] + 1
+                return src[:at] + ",\n" + PROBLEM + src[at:]
+            return src[:arr[0]+1] + "\n" + PROBLEM + "\n    " + src[arr[0]+1:]
+    raise KeyError(f"no project {key!r}")
 
 
 def add_item(src, kind, today):
@@ -296,7 +370,10 @@ class Handler(SimpleHTTPRequestHandler):
                 what = f"{changed} field{'' if changed == 1 else 's'}"
             else:
                 kind = payload.get("kind", "log")
-                new = add_item(src, kind, today)
+                if kind == "problem":
+                    new = add_problem(src, payload.get("key"))
+                else:
+                    new = add_item(src, kind, today)
                 what = f"new {kind}"
 
             if new != src:
