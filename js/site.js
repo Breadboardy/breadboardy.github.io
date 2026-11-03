@@ -359,8 +359,9 @@ function projectTabs(p) {
     </article>`).join('');
 
   const photos = Array.isArray(p.photos) && p.photos.length ? `
-    <div class="shots">${p.photos.map(([src, cap]) => `
-      <figure><img src="${esc(src)}" alt="${esc(cap || p.name)}" loading="lazy">
+    <div class="shots">${p.photos.map(([src, cap], n) => `
+      <figure><button type="button" class="shot" aria-label="Open photo ${n + 1} of ${p.photos.length} full size">
+        <img src="${esc(src)}" alt="${esc(cap || p.name)}" loading="lazy"></button>
       ${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('')}</div>` : '';
 
   /* photos sit at the top of the overview, so a quick look needs no clicking */
@@ -406,6 +407,92 @@ function wireTabs() {
     e.preventDefault(); show(btns[(go + btns.length) % btns.length].dataset.tab, true);
   });
   show(location.hash.slice(1));
+}
+
+/* click a gallery photo to see it full size. the arrows, the arrow keys or a
+   swipe move between photos; Esc, the × or a click on the dark area closes it */
+function wireLightbox() {
+  const shots = [...document.querySelectorAll('.shots .shot')];
+  if (!shots.length) return;
+  const items = shots.map(b => {
+    const im = b.querySelector('img');
+    const fc = b.closest('figure').querySelector('figcaption');
+    return { src: im.getAttribute('src'), alt: im.alt, cap: fc ? fc.textContent : '' };
+  });
+  const many = items.length > 1;
+  const chev = d => `<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+    <path d="${d}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  const lb = document.createElement('div');
+  lb.className = 'lb';
+  lb.hidden = true;
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.setAttribute('aria-label', 'Photo viewer');
+  lb.innerHTML = `
+    <img class="lb-img" alt="">
+    <p class="lb-cap" aria-live="polite"></p>
+    <button type="button" class="lb-btn lb-close" aria-label="Close">${chev('M6 6l12 12M18 6L6 18')}</button>
+    ${many ? `
+    <button type="button" class="lb-btn lb-prev" aria-label="Previous photo">${chev('M15 5l-7 7 7 7')}</button>
+    <button type="button" class="lb-btn lb-next" aria-label="Next photo">${chev('M9 5l7 7-7 7')}</button>` : ''}`;
+  document.body.appendChild(lb);
+  const img = lb.querySelector('.lb-img'), cap = lb.querySelector('.lb-cap');
+  let at = 0, opener = null;
+
+  const show = i => {
+    at = (i + items.length) % items.length;
+    const it = items[at];
+    /* the page's fade-in only covers images that existed at load, so do our own */
+    img.classList.remove('ready');
+    img.onload = () => img.classList.add('ready');
+    img.src = it.src;
+    img.alt = it.alt;
+    if (img.complete && img.naturalWidth) img.classList.add('ready');
+    cap.textContent = (it.cap ? it.cap + '  ·  ' : '') + (many ? `${at + 1} / ${items.length}` : '');
+    if (many) [at - 1, at + 1].forEach(j => { new Image().src = items[(j + items.length) % items.length].src; });
+  };
+  const open = i => {
+    opener = shots[i];
+    show(i);
+    lb.hidden = false;
+    document.documentElement.classList.add('lb-open');   // stops the page scrolling behind it
+    lb.querySelector('.lb-close').focus();
+  };
+  const close = () => {
+    lb.hidden = true;
+    document.documentElement.classList.remove('lb-open');
+    if (opener) opener.focus();
+  };
+
+  shots.forEach((b, i) => b.addEventListener('click', () => open(i)));
+  lb.addEventListener('click', e => {
+    if (e.target.closest('.lb-prev')) show(at - 1);
+    else if (e.target.closest('.lb-next')) show(at + 1);
+    else if (e.target.closest('.lb-close') || e.target === lb) close();
+  });
+  /* on document, not the viewer: clicking the dark area drops focus to <body> */
+  document.addEventListener('keydown', e => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft' && many) show(at - 1);
+    else if (e.key === 'ArrowRight' && many) show(at + 1);
+    else if (e.key === 'Tab') {          // keep focus inside the viewer
+      const btns = [...lb.querySelectorAll('button')];
+      const k = btns.indexOf(document.activeElement);
+      btns[(k + (e.shiftKey ? -1 : 1) + btns.length) % btns.length].focus();
+    } else return;
+    e.preventDefault();
+  });
+
+  let x0 = null;
+  lb.addEventListener('touchstart', e => { x0 = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    if (x0 === null || !many) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1));
+  });
 }
 
 /* ---------- build log ---------- */

@@ -775,3 +775,41 @@ html[data-theme="dark"] .pcard.award-card .pcard-head h2 { color: #e8c879; }
 
 /* home page ends on Recognition (no footer there) — leave room below it */
 #impact { padding-bottom: 72px; }
+
+/* ---------------- photo viewer ----------------
+   gallery photos are buttons that open a full-screen viewer. it is always
+   dark, whatever the theme, so photos read the same in both. */
+.shots .shot { display: block; width: 100%; padding: 0; border: 0; margin: 0;
+  background: none; color: inherit; cursor: zoom-in; }
+.shots .shot img { transition: opacity .4s var(--ease), filter .2s var(--ease); }
+.shots .shot:hover img { filter: brightness(1.07); }
+
+html.lb-open { overflow: hidden; }
+.lb { position: fixed; inset: 0; z-index: 1000; display: flex;
+  align-items: center; justify-content: center; background: rgba(9,10,9,.985); }
+.lb[hidden] { display: none; }
+.lb-img { display: block; width: auto; height: auto; object-fit: contain;
+  max-width: calc(100vw - 160px); max-height: calc(100vh - 120px);
+  max-height: calc(100dvh - 120px); box-shadow: 0 12px 48px rgba(0,0,0,.55); }
+.lb-cap { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  max-width: calc(100% - 160px); margin: 0; text-align: center; white-space: pre-wrap;
+  font: 700 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #c4c9c5; }
+.lb-btn { position: absolute; display: grid; place-items: center; width: 48px; height: 48px;
+  padding: 0; border-radius: 50%; cursor: pointer; color: #f0efea;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2);
+  transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease); }
+.lb-btn:hover { background: rgba(255,255,255,.16); border-color: #5fd394; color: #5fd394; }
+.lb :focus-visible { outline-color: #5fd394; }   /* the light theme's green is too dark on black */
+.lb-close { top: 16px; right: 16px; }
+.lb-prev, .lb-next { top: 50%; transform: translateY(-50%); }
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+
+/* phones: photo fills the width, arrows drop to the bottom corners for thumbs */
+@media (max-width: 640px) {
+  .lb-img { max-width: calc(100vw - 24px); max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); }
+  .lb-prev, .lb-next { top: auto; bottom: 14px; transform: none; }
+  .lb-prev { left: 14px; }
+  .lb-next { right: 14px; }
+  .lb-cap { bottom: 28px; max-width: calc(100% - 140px); }
+}
