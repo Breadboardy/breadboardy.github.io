@@ -545,7 +545,7 @@ const SITE = {
   /* The big one. Several paragraphs — blank line between each.
      Age, homeschooled through Hickman, how you got into building,
      what you're into now, what you want from a school. Write a lot. */
-  about:    "",
+  about:    "I'm 10, I live in California, and I'm homeschooled through Hickman.\n\n[? How did you get into building? What was the first thing you made, and how old were you?]\n\nI mostly build robots and electronics. My biggest project is MEATBALL, a humanoid robot with two SO-101 arms. It is built and it stands up, and I have taken it to public science events so people can see it up close.\n\nI also design my own circuit boards. Geedo, my robot pet, runs on a PCB I designed myself. The first version did not work, so I kept changing the design until it did. I have also made two LED masks, a handheld game console and a homemade smartwatch.\n\nTo make the parts I use Onshape for CAD and a 3D printer, and most of my electronics run on ESP32 boards. I practise Python on boot.dev, and I like making games in Godot.\n\nI started a small group called TIDI. The idea is that humanoid robots are not just for big companies anymore. The arms and the AI software are open source now, so a school could build one. MEATBALL is TIDI's demo robot.\n\n[? Anything about how you use AI tools when you code? Some readers will ask.]\n\n[? What do you want from a school? One or two sentences in your own words.]",
   email:    "",
   github:   "https://github.com/Breadboardy",
   linkedin: "",

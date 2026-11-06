@@ -132,7 +132,8 @@ filmed = [t for t in tchunks if field(t, "url")]
 print(f"\n{B}TALKS & DEMOS{N}")
 print(f"  {len(filmed)} filmed, {len(tchunks) - len(filmed)} to record")
 covered = {field(t, "project") for t in filmed}
-novid = [field(c, "name") for c in chunks if field(c, "id") not in covered]
+novid = [_raw(a, b, "name") or _raw(a, b, "id") for a, b in _ed.array_items(src, _s, _e)
+         if _raw(a, b, "id") not in covered]
 if novid:
     print(f"  {D}no video yet: {', '.join(novid)}{N}")
 todo += len(tchunks) - len(filmed)
@@ -162,6 +163,10 @@ blanks = [k for k in ("role", "intro", "now", "about", "github") if not field(si
 print(f"\n{B}HOME / ABOUT{N}")
 print(f"  {G}all filled in{N}" if not blanks else f"  {Y}blank: {', '.join(blanks)}{N}")
 todo += len(blanks)
+
+for k in ("about", "intro"):
+    if field(site, k) and DRAFTS.get(f"SITE||{k}") == field(site, k):
+        draft_total[0] += 1
 
 aw = len(field(site, "about").split())
 if aw:
