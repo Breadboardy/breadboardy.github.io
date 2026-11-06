@@ -82,7 +82,7 @@ const PROJECTS = [
         fix:   "I also rewrote the whole thing four days after the first version. [? what did the second version change?]"
       }
     ],
-    nowDoes:   "It plays. You turn the knob to move the paddle, press the button to launch, and the ball bounces off the left, right and top walls. Miss it and you lose a life, and the RGB LED changes colour.",
+    nowDoes:   "It plays. You turn the knob to move the paddle, press the button to launch, and the ball bounces off the left, right and top walls. Miss it and you lose a life, and the RGB LED changes color.",
     next:      "[? would you add bricks, a score, more levels — or leave it?]"
   },
 
@@ -140,7 +140,7 @@ const PROJECTS = [
     ],
 
     goal:      "I wanted to build a full-sized humanoid with two arms that could actually pick things up and do chores. The reason why I wanted to build my own is that humanoid robots are very expensive and hard to build.",
-    firstTry:  "I tried designing my own arm but I soon realised that I could just steal other people's designs. The design I chose to steal was the SO-101 robotic arm.",
+    firstTry:  "I tried designing my own arm but I soon realized that I could just steal other people's designs. The design I chose to steal was the SO-101 robotic arm.",
     /* --- problems: as many as it had. what happened, why, how I fixed it. --- */
     problems: [
       {
@@ -223,7 +223,7 @@ const PROJECTS = [
 
     /* --- the six headings. this is the actual writing. --- */
     goal:      "I was trying to develop Geedo, an affordable consumer pet robot designed to transition from a personal DIY project into a commercial product.",   // 1. What I was trying to do
-    firstTry:  "I tried making a prototype of it with consumer off-the-shelf parts, but I realised that if I wanted to make this a product I would have to make custom parts.",   // 2. What I tried first
+    firstTry:  "I tried making a prototype of it with consumer off-the-shelf parts, but I realized that if I wanted to make this a product I would have to make custom parts.",   // 2. What I tried first
     /* --- problems: as many as it had. what happened, why, how I fixed it. --- */
     problems: [
       {
@@ -257,7 +257,7 @@ const PROJECTS = [
     ],
 
     goal:      "I wanted a Halloween costume with a face that moved instead of a fixed mask. [? what gave you the idea?]",
-    firstTry:  "I chained four MAX7219 8x8 dot-matrix modules together to make one 32x8 display, driven off an Arduino with the LedControl library. Monochrome red, one colour, no brightness per pixel beyond the module's global setting.",
+    firstTry:  "I chained four MAX7219 8x8 dot-matrix modules together to make one 32x8 display, driven off an Arduino with the LedControl library. Monochrome red, one color, no brightness per pixel beyond the module's global setting.",
     /* --- problems: as many as it had. what happened, why, how I fixed it. --- */
     problems: [
       {
@@ -268,7 +268,7 @@ const PROJECTS = [
       }
     ],
     nowDoes:   "It runs animations on a 32x8 red dot-matrix panel at around 25 frames a second, cycling automatically. [? did you actually wear it?]",
-    next:      "I rebuilt it the next year as LED Mask v2, on a full-colour addressable panel instead of monochrome modules."
+    next:      "I rebuilt it the next year as LED Mask v2, on a full-color addressable panel instead of monochrome modules."
   },
 
   {
@@ -334,8 +334,8 @@ const PROJECTS = [
       ["img/g_ledmask2_worn2.jpg", ""]
     ],
 
-    goal:      "I wanted to redo my LED mask properly. The first one was four monochrome dot-matrix modules; this time I wanted full colour, real animations, and a face that reacts. [? what specifically bugged you about v1?]",
-    firstTry:  "Before touching any hardware I built a simulator that runs in a browser, so I could design animations on my laptop and see them straight away instead of reflashing a board every time I changed a pixel.\n\nThen I started on real hardware with an ESP32, and wrote small sketches first: one to check the panel lit up at all, one to check the colours were in the order I thought, and one to get a face on it.",
+    goal:      "I wanted to redo my LED mask properly. The first one was four monochrome dot-matrix modules; this time I wanted full color, real animations, and a face that reacts. [? what specifically bugged you about v1?]",
+    firstTry:  "Before touching any hardware I built a simulator that runs in a browser, so I could design animations on my laptop and see them straight away instead of reflashing a board every time I changed a pixel.\n\nThen I started on real hardware with an ESP32, and wrote small sketches first: one to check the panel lit up at all, one to check the colors were in the order I thought, and one to get a face on it.",
     /* --- problems: as many as it had. what happened, why, how I fixed it. --- */
     problems: [
       {
@@ -545,7 +545,7 @@ const SITE = {
   /* The big one. Several paragraphs — blank line between each.
      Age, homeschooled through Hickman, how you got into building,
      what you're into now, what you want from a school. Write a lot. */
-  about:    "I'm 10, I live in California, and I'm homeschooled through Hickman.\n\n[? How did you get into building? What was the first thing you made, and how old were you?]\n\nI mostly build robots and electronics. My biggest project is MEATBALL, a humanoid robot with two SO-101 arms. It is built and it stands up, and I have taken it to public science events so people can see it up close.\n\nI also design my own circuit boards. Geedo, my robot pet, runs on a PCB I designed myself. The first version did not work, so I kept changing the design until it did. I have also made two LED masks, a handheld game console and a homemade smartwatch.\n\nTo make the parts I use Onshape for CAD and a 3D printer, and most of my electronics run on ESP32 boards. I practise Python on boot.dev, and I like making games in Godot.\n\nI started a small group called TIDI. The idea is that humanoid robots are not just for big companies anymore. The arms and the AI software are open source now, so a school could build one. MEATBALL is TIDI's demo robot.\n\n[? Anything about how you use AI tools when you code? Some readers will ask.]\n\n[? What do you want from a school? One or two sentences in your own words.]",
+  about:    "I'm 10, I live in California, and I'm homeschooled through Hickman.\n\n[? How did you get into building? What was the first thing you made, and how old were you?]\n\nI mostly build robots and electronics. My biggest project is MEATBALL, a humanoid robot with two SO-101 arms. It is built and it stands up, and I have taken it to public science events so people can see it up close.\n\nI also design my own circuit boards. Geedo, my robot pet, runs on a PCB I designed myself. The first version did not work, so I kept changing the design until it did. I have also made two LED masks, a handheld game console and a homemade smartwatch.\n\nTo make the parts I use Onshape for CAD and a 3D printer, and most of my electronics run on ESP32 boards. I practice Python on boot.dev, and I like making games in Godot.\n\n[? Anything about how you use AI tools when you code? Some readers will ask.]\n\n[? What do you want from a school? One or two sentences in your own words.]",
   email:    "",
   github:   "https://github.com/Breadboardy",
   linkedin: "",
